@@ -5,9 +5,11 @@
 
 package com.schuster.entities;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -26,10 +28,11 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 public class Course {
   @ManyToMany
-  private Set<Department> department;
+  private Set<Department> department = new HashSet<>();
   @ManyToMany(mappedBy = "courses")
-  private Set<Requirement> requirements;
+  private Set<Requirement> requirements = new HashSet<>();
   @Id
+  @Column(columnDefinition = "BINARY(16)")
   @GeneratedValue(generator = "uuid2")
   @GenericGenerator(name = "uuid2", strategy = "uuid2")
   private UUID uuid;

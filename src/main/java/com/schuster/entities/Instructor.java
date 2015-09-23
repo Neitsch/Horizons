@@ -5,6 +5,7 @@
 
 package com.schuster.entities;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -26,11 +27,12 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Data
 public class Instructor {
-  @ManyToMany(mappedBy = "instructors")
-  private Set<CourseInstance> instances;
+  @ManyToMany(mappedBy = "instructors", cascade = {javax.persistence.CascadeType.ALL})
+  private Set<CourseInstance> instances = new HashSet<>();
   @Column
   private String name;
   @Id
+  @Column(columnDefinition = "BINARY(16)")
   @GeneratedValue(generator = "uuid2")
   @GenericGenerator(name = "uuid2", strategy = "uuid2")
   private UUID uuid;

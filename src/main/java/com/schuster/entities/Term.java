@@ -5,7 +5,7 @@
 
 package com.schuster.entities;
 
-import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -18,6 +18,8 @@ import javax.persistence.OneToMany;
 import lombok.Data;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+import org.joda.time.LocalDate;
 
 /**
  * @author nschuste
@@ -28,14 +30,17 @@ import org.hibernate.annotations.GenericGenerator;
 @Data
 public class Term {
   @Column
-  private Date end;
+  @Type(type = "org.joda.time.contrib.hibernate.PersistentLocalDate")
+  private LocalDate end;
   @OneToMany(mappedBy = "term")
-  private Set<CourseInstance> instances;
+  private Set<CourseInstance> instances = new HashSet<>();
   @Column
   private String name;
   @Column
-  private Date start;
+  @Type(type = "org.joda.time.contrib.hibernate.PersistentLocalDate")
+  private LocalDate start;
   @Id
+  @Column(columnDefinition = "BINARY(16)")
   @GeneratedValue(generator = "uuid2")
   @GenericGenerator(name = "uuid2", strategy = "uuid2")
   private UUID uuid;

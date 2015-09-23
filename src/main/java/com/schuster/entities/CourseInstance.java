@@ -5,9 +5,11 @@
 
 package com.schuster.entities;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -29,12 +31,13 @@ public class CourseInstance {
   @ManyToOne
   private Course course;
   @ManyToMany
-  private Set<Instructor> instructors;
+  private Set<Instructor> instructors = new HashSet<>();
   @ManyToMany
-  private Set<TimeSlot> slots;
+  private Set<TimeSlot> slots = new HashSet<>();
   @ManyToOne
   private Term term;
   @Id
+  @Column(columnDefinition = "BINARY(16)")
   @GeneratedValue(generator = "uuid2")
   @GenericGenerator(name = "uuid2", strategy = "uuid2")
   private UUID uuid;

@@ -6,6 +6,7 @@
 package com.schuster.entities;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -38,7 +39,7 @@ public class User {
   @Column
   private String lastName;
   @ManyToMany
-  private Set<Schedule> schedules;
+  private Set<Schedule> schedules = new HashSet<>();
   @Column
   private String username;
   @Id
