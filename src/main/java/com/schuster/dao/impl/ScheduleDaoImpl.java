@@ -5,6 +5,8 @@
 
 package com.schuster.dao.impl;
 
+import org.springframework.stereotype.Repository;
+
 import com.schuster.dao.ScheduleDao;
 import com.schuster.entities.Schedule;
 import com.schuster.generics.GenericDaoImpl;
@@ -14,5 +16,6 @@ import com.schuster.generics.GenericDaoImpl;
  * @version 1.0.0
  * @since Sep 22, 2015
  */
+@Repository
 public class ScheduleDaoImpl extends GenericDaoImpl<Schedule> implements ScheduleDao {
 }
