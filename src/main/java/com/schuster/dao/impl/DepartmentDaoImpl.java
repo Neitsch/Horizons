@@ -5,6 +5,9 @@
 
 package com.schuster.dao.impl;
 
+import org.springframework.stereotype.Component;
+
+import com.schuster.dao.DepartmentDao;
 import com.schuster.entities.Department;
 import com.schuster.generics.GenericDaoImpl;
 
@@ -13,5 +16,6 @@ import com.schuster.generics.GenericDaoImpl;
  * @version 1.0.0
  * @since Sep 22, 2015
  */
-public class DepartmentDaoImpl extends GenericDaoImpl<Department> {
+@Component
+public class DepartmentDaoImpl extends GenericDaoImpl<Department> implements DepartmentDao {
 }

@@ -5,7 +5,7 @@
 
 package com.schuster.dao;
 
-import com.schuster.entities.Course;
+import com.schuster.entities.TimeSlot;
 import com.schuster.generics.GenericDao;
 
 
@@ -15,6 +15,6 @@ import com.schuster.generics.GenericDao;
  * @version 1.0.0
  * @since Sep 22, 2015
  */
-public interface CourseDao extends GenericDao<Course> {
+public interface TimeSlotDao extends GenericDao<TimeSlot> {
 
 }

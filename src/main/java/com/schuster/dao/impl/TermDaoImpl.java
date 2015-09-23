@@ -5,6 +5,7 @@
 
 package com.schuster.dao.impl;
 
+import com.schuster.dao.TermDao;
 import com.schuster.entities.Term;
 import com.schuster.generics.GenericDaoImpl;
 
@@ -13,5 +14,5 @@ import com.schuster.generics.GenericDaoImpl;
  * @version 1.0.0
  * @since Sep 22, 2015
  */
-public class TermDaoImpl extends GenericDaoImpl<Term> {
+public class TermDaoImpl extends GenericDaoImpl<Term> implements TermDao {
 }

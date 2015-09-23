@@ -5,6 +5,7 @@
 
 package com.schuster.dao.impl;
 
+import com.schuster.dao.TimeSlotDao;
 import com.schuster.entities.TimeSlot;
 import com.schuster.generics.GenericDaoImpl;
 
@@ -13,5 +14,5 @@ import com.schuster.generics.GenericDaoImpl;
  * @version 1.0.0
  * @since Sep 22, 2015
  */
-public class TimeSlotDaoImpl extends GenericDaoImpl<TimeSlot> {
+public class TimeSlotDaoImpl extends GenericDaoImpl<TimeSlot> implements TimeSlotDao {
 }
