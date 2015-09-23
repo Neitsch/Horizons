@@ -5,8 +5,8 @@
 
 package com.schuster.generics;
 
-import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
 
@@ -16,17 +16,17 @@ import org.springframework.stereotype.Repository;
  * @since Sep 9, 2015
  */
 @Repository
-public interface GenericDao<E, PK extends Serializable> {
+public interface GenericDao<E> {
   /**
    * Creates the given entity in the underlying persistence unit.
-   * 
+   *
    * @author nschuste
    * @version 1.0.0
    * @param entity
    * @return
    * @since Sep 10, 2015
    */
-  public PK create(E entity);
+  public UUID create(E entity);
 
   public void createOrUpdate(E entity);
 
@@ -34,7 +34,7 @@ public interface GenericDao<E, PK extends Serializable> {
 
   public List<E> getAll();
 
-  public E read(PK key);
+  public E read(UUID key);
 
   public void update(E entity);
 }

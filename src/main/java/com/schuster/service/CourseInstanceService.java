@@ -5,18 +5,16 @@
 
 package com.schuster.service;
 
-import java.util.UUID;
-
 import com.schuster.entities.CourseInstance;
 import com.schuster.generics.GenericDao;
-import com.schuster.generics.UUIDGenericService;
+import com.schuster.generics.GenericServiceImpl;
 
 /**
  * @author nschuste
  * @version 1.0.0
  * @since Sep 22, 2015
  */
-public class CourseInstanceService extends UUIDGenericService<CourseInstance> {
+public class CourseInstanceService extends GenericServiceImpl<CourseInstance> {
 
   /**
    * @author nschuste
@@ -24,7 +22,7 @@ public class CourseInstanceService extends UUIDGenericService<CourseInstance> {
    * @param genericDao
    * @since Sep 22, 2015
    */
-  public CourseInstanceService(final GenericDao<CourseInstance, UUID> genericDao) {
+  public CourseInstanceService(final GenericDao<CourseInstance> genericDao) {
     super(genericDao);
   }
 }

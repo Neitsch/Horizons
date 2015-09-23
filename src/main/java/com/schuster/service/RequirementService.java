@@ -5,18 +5,16 @@
 
 package com.schuster.service;
 
-import java.util.UUID;
-
 import com.schuster.entities.Requirement;
 import com.schuster.generics.GenericDao;
-import com.schuster.generics.UUIDGenericService;
+import com.schuster.generics.GenericServiceImpl;
 
 /**
  * @author nschuste
  * @version 1.0.0
  * @since Sep 22, 2015
  */
-public class RequirementService extends UUIDGenericService<Requirement> {
+public class RequirementService extends GenericServiceImpl<Requirement> {
 
   /**
    * @author nschuste
@@ -24,7 +22,7 @@ public class RequirementService extends UUIDGenericService<Requirement> {
    * @param genericDao
    * @since Sep 22, 2015
    */
-  public RequirementService(final GenericDao<Requirement, UUID> genericDao) {
+  public RequirementService(final GenericDao<Requirement> genericDao) {
     super(genericDao);
   }
 }

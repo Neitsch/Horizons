@@ -5,18 +5,16 @@
 
 package com.schuster.service;
 
-import java.util.UUID;
-
 import com.schuster.entities.User;
 import com.schuster.generics.GenericDao;
-import com.schuster.generics.UUIDGenericService;
+import com.schuster.generics.GenericServiceImpl;
 
 /**
  * @author nschuste
  * @version 1.0.0
  * @since Sep 22, 2015
  */
-public class UserService extends UUIDGenericService<User> {
+public class UserService extends GenericServiceImpl<User> {
 
   /**
    * @author nschuste
@@ -24,7 +22,7 @@ public class UserService extends UUIDGenericService<User> {
    * @param genericDao
    * @since Sep 22, 2015
    */
-  public UserService(final GenericDao<User, UUID> genericDao) {
+  public UserService(final GenericDao<User> genericDao) {
     super(genericDao);
   }
 }

@@ -5,8 +5,8 @@
 
 package com.schuster.generics;
 
-import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 import lombok.extern.slf4j.XSlf4j;
 
@@ -19,11 +19,11 @@ import org.springframework.transaction.annotation.Transactional;
  * @since Sep 9, 2015
  */
 @XSlf4j
-public class GenericServiceImpl<E, PK extends Serializable> implements GenericService<E, PK> {
+public class GenericServiceImpl<E> implements GenericService<E> {
 
-  private final GenericDao<E, PK> genericDao;
+  private final GenericDao<E> genericDao;
 
-  public GenericServiceImpl(final GenericDao<E, PK> genericDao) {
+  public GenericServiceImpl(final GenericDao<E> genericDao) {
     log.entry(genericDao);
     this.genericDao = genericDao;
     log.exit();
@@ -39,7 +39,7 @@ public class GenericServiceImpl<E, PK extends Serializable> implements GenericSe
    */
   @Override
   @Transactional(propagation = Propagation.REQUIRED)
-  public PK create(final E entity) {
+  public UUID create(final E entity) {
     log.entry(entity);
     return log.exit(this.genericDao.create(entity));
   }
@@ -101,7 +101,7 @@ public class GenericServiceImpl<E, PK extends Serializable> implements GenericSe
    */
   @Override
   @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-  public E read(final PK key) {
+  public E read(final UUID key) {
     log.entry(key);
     return log.exit(this.genericDao.read(key));
   }

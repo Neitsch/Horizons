@@ -5,10 +5,10 @@
 
 package com.schuster.generics;
 
-import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.UUID;
 
 import lombok.extern.slf4j.XSlf4j;
 
@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @since Sep 9, 2015
  */
 @XSlf4j
-public abstract class GenericDaoImpl<E, PK extends Serializable> implements GenericDao<E, PK> {
+public abstract class GenericDaoImpl<E> implements GenericDao<E> {
   protected Class<? extends E> daoType;
   @Autowired
   private final SessionFactory sessionFactory = null;
@@ -50,9 +50,9 @@ public abstract class GenericDaoImpl<E, PK extends Serializable> implements Gene
    * @since Sep 9, 2015
    */
   @Override
-  public PK create(final E entity) {
+  public UUID create(final E entity) {
     log.entry(entity);
-    final PK key = (PK) this.currentSession().save(entity);
+    final UUID key = (UUID) this.currentSession().save(entity);
     return log.exit(key);
   }
 
@@ -109,7 +109,7 @@ public abstract class GenericDaoImpl<E, PK extends Serializable> implements Gene
    * @since Sep 9, 2015
    */
   @Override
-  public E read(final PK key) {
+  public E read(final UUID key) {
     log.entry(key);
     return log.exit((E) this.currentSession().get(this.daoType, key));
   }

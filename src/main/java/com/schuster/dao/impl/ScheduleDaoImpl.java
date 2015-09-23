@@ -3,15 +3,15 @@
  */
 
 
-package com.schuster.dao;
+package com.schuster.dao.impl;
 
 import com.schuster.entities.Schedule;
-import com.schuster.generics.UUIDGenericDao;
+import com.schuster.generics.GenericDaoImpl;
 
 /**
  * @author nschuste
  * @version 1.0.0
  * @since Sep 22, 2015
  */
-public class ScheduleDao extends UUIDGenericDao<Schedule> {
+public class ScheduleDaoImpl extends GenericDaoImpl<Schedule> {
 }

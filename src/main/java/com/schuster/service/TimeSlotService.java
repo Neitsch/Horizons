@@ -5,18 +5,16 @@
 
 package com.schuster.service;
 
-import java.util.UUID;
-
 import com.schuster.entities.TimeSlot;
 import com.schuster.generics.GenericDao;
-import com.schuster.generics.UUIDGenericService;
+import com.schuster.generics.GenericServiceImpl;
 
 /**
  * @author nschuste
  * @version 1.0.0
  * @since Sep 22, 2015
  */
-public class TimeSlotService extends UUIDGenericService<TimeSlot> {
+public class TimeSlotService extends GenericServiceImpl<TimeSlot> {
 
   /**
    * @author nschuste
@@ -24,7 +22,7 @@ public class TimeSlotService extends UUIDGenericService<TimeSlot> {
    * @param genericDao
    * @since Sep 22, 2015
    */
-  public TimeSlotService(final GenericDao<TimeSlot, UUID> genericDao) {
+  public TimeSlotService(final GenericDao<TimeSlot> genericDao) {
     super(genericDao);
   }
 }

@@ -5,18 +5,16 @@
 
 package com.schuster.service;
 
-import java.util.UUID;
-
 import com.schuster.entities.Schedule;
 import com.schuster.generics.GenericDao;
-import com.schuster.generics.UUIDGenericService;
+import com.schuster.generics.GenericServiceImpl;
 
 /**
  * @author nschuste
  * @version 1.0.0
  * @since Sep 22, 2015
  */
-public class ScheduleService extends UUIDGenericService<Schedule> {
+public class ScheduleService extends GenericServiceImpl<Schedule> {
 
   /**
    * @author nschuste
@@ -24,7 +22,7 @@ public class ScheduleService extends UUIDGenericService<Schedule> {
    * @param genericDao
    * @since Sep 22, 2015
    */
-  public ScheduleService(final GenericDao<Schedule, UUID> genericDao) {
+  public ScheduleService(final GenericDao<Schedule> genericDao) {
     super(genericDao);
   }
 }

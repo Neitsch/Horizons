@@ -5,8 +5,8 @@
 
 package com.schuster.generics;
 
-import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
  * @since Sep 9, 2015
  */
 @Service
-public interface GenericService<E, PK extends Serializable> {
-  public PK create(E entity);
+public interface GenericService<E> {
+  public UUID create(E entity);
 
   public void createOrUpdate(E entity);
 
@@ -25,7 +25,7 @@ public interface GenericService<E, PK extends Serializable> {
 
   public List<E> getAll();
 
-  public E read(PK key);
+  public E read(UUID key);
 
   public void update(E entity);
 }

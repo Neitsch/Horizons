@@ -5,18 +5,16 @@
 
 package com.schuster.service;
 
-import java.util.UUID;
-
 import com.schuster.entities.Department;
 import com.schuster.generics.GenericDao;
-import com.schuster.generics.UUIDGenericService;
+import com.schuster.generics.GenericServiceImpl;
 
 /**
  * @author nschuste
  * @version 1.0.0
  * @since Sep 22, 2015
  */
-public class DepartmentService extends UUIDGenericService<Department> {
+public class DepartmentService extends GenericServiceImpl<Department> {
 
   /**
    * @author nschuste
@@ -24,7 +22,7 @@ public class DepartmentService extends UUIDGenericService<Department> {
    * @param genericDao
    * @since Sep 22, 2015
    */
-  public DepartmentService(final GenericDao<Department, UUID> genericDao) {
+  public DepartmentService(final GenericDao<Department> genericDao) {
     super(genericDao);
   }
 }
