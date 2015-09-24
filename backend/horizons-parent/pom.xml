@@ -41,7 +41,7 @@
                 <artifactId>joda-time-hibernate</artifactId>
                 <version>${joda.hibernate.version}</version>
             </dependency>
-        <!-- SLF4J --> 
+        <!-- SLF4J -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-ext</artifactId>
@@ -50,6 +50,22 @@
         </dependencies>
     </dependencyManagement>
     <build>
+        <resources>
+            <resource>
+                <directory>sonar</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>*.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>sonar</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>*.properties</exclude>
+                </excludes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
