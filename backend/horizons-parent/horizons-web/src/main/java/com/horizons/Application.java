@@ -28,6 +28,13 @@ import org.springframework.context.annotation.ImportResource;
 // @EnableTransactionManagement
 @ImportResource("classpath:spring.xml")
 public class Application {
+  /**
+   * @author nschuste
+   * @version 1.0.0
+   * @since Sep 24, 2015
+   */
+  private Application() {}
+
   public static void main(final String[] args) {
     log.entry(args);
     SpringApplication.run(Application.class, args);
