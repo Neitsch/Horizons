@@ -21,6 +21,7 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalTime;
+import org.springframework.hateoas.ResourceSupport;
 
 /**
  * @author nschuste
@@ -29,7 +30,7 @@ import org.joda.time.LocalTime;
  */
 @Data
 @Entity
-public class TimeSlot {
+public class TimeSlot extends ResourceSupport {
   @Column
   @Type(type = "org.joda.time.contrib.hibernate.PersistentLocalTimeAsTime")
   private LocalTime end;
