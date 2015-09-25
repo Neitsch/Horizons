@@ -15,4 +15,13 @@ import com.horizons.generics.GenericDao;
  */
 public interface UserDao extends GenericDao<User> {
 
+  /**
+   * @author nschuste
+   * @version 1.0.0
+   * @param username
+   * @return
+   * @since Sep 24, 2015
+   */
+  public User findByName(String username);
+
 }

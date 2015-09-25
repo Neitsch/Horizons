@@ -14,14 +14,14 @@
   <property name="hibernate.c3p0.timeout">1000</property>
   <property name="hibernate.c3p0.max_statements">50</property>
   <property name="hibernate.c3p0.idle_test_period">3000</property>
-  <mapping class="com.schuster.entities.Course"/>
-  <mapping class="com.schuster.entities.CourseInstance"/>
-  <mapping class="com.schuster.entities.Department"/>
-  <mapping class="com.schuster.entities.Instructor"/>
-  <mapping class="com.schuster.entities.Requirement"/>
-  <mapping class="com.schuster.entities.Schedule"/>
-  <mapping class="com.schuster.entities.Term"/>
-  <mapping class="com.schuster.entities.TimeSlot"/>
-  <mapping class="com.schuster.entities.User"/>
+  <mapping class="com.horizons.entities.Course"/>
+  <mapping class="com.horizons.entities.CourseInstance"/>
+  <mapping class="com.horizons.entities.Department"/>
+  <mapping class="com.horizons.entities.Instructor"/>
+  <mapping class="com.horizons.entities.Requirement"/>
+  <mapping class="com.horizons.entities.Schedule"/>
+  <mapping class="com.horizons.entities.Term"/>
+  <mapping class="com.horizons.entities.TimeSlot"/>
+  <mapping class="com.horizons.entities.User"/>
  </session-factory>
 </hibernate-configuration>

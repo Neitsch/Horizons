@@ -7,38 +7,17 @@
         <artifactId>horizons-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>horizons-web</artifactId>
+    <artifactId>horizons-mock</artifactId>
     <dependencies>
         <!-- SPRING -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-orm</artifactId>
-        </dependency>
         <!-- SPRING BOOT -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <!-- SPRING SECURITY -->
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
         </dependency>
         <!-- LOMBOK -->
         <dependency>
@@ -55,20 +34,6 @@
             <groupId>com.horizons</groupId>
             <artifactId>horizons-commons</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <!-- SLF4J -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-ext</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-        <!-- MYSQL -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
         </dependency>
     </dependencies>
 </project>

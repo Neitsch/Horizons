@@ -25,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class GenericDaoImpl<E> implements GenericDao<E> {
   protected Class<? extends E> daoType;
   @Autowired
-  private final SessionFactory sessionFactory = null;
+  protected final SessionFactory sessionFactory = null;
 
   /**
    * @author nschuste

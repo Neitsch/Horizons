@@ -33,7 +33,7 @@ public class Application {
    * @version 1.0.0
    * @since Sep 24, 2015
    */
-  private Application() {}
+  public Application() {}
 
   public static void main(final String[] args) {
     log.entry(args);

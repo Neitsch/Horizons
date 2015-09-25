@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://www.padual.com/java/logback.xsd"
+>
+  <jmxConfigurator />
+    <!--<include resource="org/springframework/boot/logging/logback/base.xml"/> -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
+            by default -->
+        <encoder>
+            <pattern>
+        %highlight(%d{ISO8601} %-5level ([%15.15t]\) [%-40.40logger{39}:%4.4L] - %msg) %n
+      </pattern>
+        </encoder>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+    </root>
+    <logger name="com.horizons" level="ALL" />
+    <logger name="org.apache.commons.httpclient" level="WARN"/>
+</configuration>

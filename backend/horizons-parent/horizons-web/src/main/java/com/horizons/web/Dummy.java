@@ -5,13 +5,13 @@
 
 package com.horizons.web;
 
-import org.joda.time.LocalTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.horizons.entities.TimeSlot;
 import com.horizons.service.TimeSlotService;
 
 /**
@@ -20,15 +20,13 @@ import com.horizons.service.TimeSlotService;
  * @since Sep 23, 2015
  */
 @RestController
-@RequestMapping("/instructor")
 public class Dummy {
   @Autowired
   private TimeSlotService service;
 
-  @RequestMapping(value = "/test", method = RequestMethod.GET)
-  public String test() {
-    final TimeSlot slot = new TimeSlot();
-    slot.setStart(new LocalTime(19, 00));
-    return "ok";
+  @ResponseStatus(value = HttpStatus.OK)
+  @RequestMapping(value = "/alive", method = RequestMethod.GET)
+  public void test() {
+
   }
 }

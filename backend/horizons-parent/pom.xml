@@ -21,6 +21,7 @@
     <modules>
         <module>horizons-commons</module>
         <module>horizons-web</module>
+        <module>horizons-mock</module>
     </modules>
     <dependencyManagement>
         <dependencies>
