@@ -6,8 +6,8 @@
 package com.horizons.entities;
 
 import java.time.DayOfWeek;
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -34,7 +34,7 @@ public class TimeSlot {
   @Type(type = "org.joda.time.contrib.hibernate.PersistentLocalTimeAsTime")
   private LocalTime end;
   @ManyToMany(mappedBy = "slots")
-  private Set<CourseInstance> instances = new HashSet<>();
+  private Collection<CourseInstance> instances = new HashSet<>();
   @Column
   @Type(type = "org.joda.time.contrib.hibernate.PersistentLocalTimeAsTime")
   private LocalTime start;

@@ -5,8 +5,8 @@
 
 package com.horizons.entities;
 
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -29,7 +29,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Data
 public class Schedule {
   @ManyToMany
-  private Set<CourseInstance> instances = new HashSet<>();
+  private Collection<CourseInstance> instances = new HashSet<>();
   @ManyToOne
   private Term term;
   @Id

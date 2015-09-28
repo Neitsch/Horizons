@@ -5,14 +5,12 @@
 
 package com.horizons.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.horizons.service.TimeSlotService;
 
 /**
  * @author nschuste
@@ -20,13 +18,19 @@ import com.horizons.service.TimeSlotService;
  * @since Sep 23, 2015
  */
 @RestController
+@RequestMapping("/public")
 public class Dummy {
-  @Autowired
-  private TimeSlotService service;
-
   @ResponseStatus(value = HttpStatus.OK)
   @RequestMapping(value = "/alive", method = RequestMethod.GET)
+  @PreAuthorize("permitAll")
   public void test() {
+
+  }
+
+  @ResponseStatus(value = HttpStatus.OK)
+  @RequestMapping(value = "/logged", method = RequestMethod.GET)
+  @PreAuthorize("denyAll")
+  public void test2() {
 
   }
 }

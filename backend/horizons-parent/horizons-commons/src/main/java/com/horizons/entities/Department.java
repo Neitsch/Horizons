@@ -5,8 +5,8 @@
 
 package com.horizons.entities;
 
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -28,7 +28,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 public class Department {
   @ManyToMany(mappedBy = "department")
-  private Set<Course> courses = new HashSet<>();
+  private Collection<Course> courses = new HashSet<>();
   @Column
   private String name;
   @Id

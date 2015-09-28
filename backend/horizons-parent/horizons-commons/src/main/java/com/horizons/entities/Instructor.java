@@ -5,8 +5,8 @@
 
 package com.horizons.entities;
 
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -28,7 +28,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Data
 public class Instructor {
   @ManyToMany(mappedBy = "instructors", cascade = {javax.persistence.CascadeType.ALL})
-  private Set<CourseInstance> instances = new HashSet<>();
+  private Collection<CourseInstance> instances = new HashSet<>();
   @Column
   private String name;
   @Id

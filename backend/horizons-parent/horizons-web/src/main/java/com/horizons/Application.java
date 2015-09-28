@@ -12,8 +12,13 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import com.horizons.scraper.ClassScraper;
 
 /**
  * @author nschuste
@@ -25,9 +30,11 @@ import org.springframework.context.annotation.ImportResource;
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class,
     DataSourceTransactionManagerAutoConfiguration.class})
 @ComponentScan
-// @EnableTransactionManagement
+@EnableTransactionManagement
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @ImportResource("classpath:spring.xml")
 public class Application {
+
   /**
    * @author nschuste
    * @version 1.0.0
@@ -37,7 +44,9 @@ public class Application {
 
   public static void main(final String[] args) {
     log.entry(args);
-    SpringApplication.run(Application.class, args);
+    System.setProperty("https.protocols", "SSLv3,SSLv2Hello,TLSv1");
+    final ApplicationContext context = SpringApplication.run(Application.class, args);
+    context.getBean(ClassScraper.class).getClasses();
     log.exit();
   }
 }

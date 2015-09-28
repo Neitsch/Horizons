@@ -5,19 +5,18 @@
 
 package com.horizons.web;
 
-import java.util.Arrays;
-import java.util.List;
-
-import lombok.Data;
 import lombok.extern.slf4j.XSlf4j;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.horizons.security.AuthenticationProvider;
+import com.horizons.to.UserTO;
 
 /**
  * @author nschuste
@@ -28,30 +27,21 @@ import org.springframework.web.bind.annotation.RestController;
 @XSlf4j
 @RequestMapping("/authz")
 public class Authentication {
-  @Data
-  public static class User {
-    String password;
-    String username;
-  }
-
-  private static final List<GrantedAuthority> authorities;
-  static {
-    authorities = Arrays.asList(new SimpleGrantedAuthority("USER"));
-  }
+  @Autowired
+  AuthenticationProvider authenticator;
 
   @RequestMapping("/auth")
-  @javax.annotation.security.RolesAllowed("ROLE_USERR")
+  @PreAuthorize(value = "hasRole('ROLE_USER')")
   public String authenticated() {
     return "hi";
   }
 
-  @RequestMapping("/login")
-  public void login(@RequestBody final User user) {
+  @RequestMapping(value = "/login", method = RequestMethod.POST)
+  @PreAuthorize("permitAll")
+  public void login(@RequestBody final UserTO user) {
     log.entry(user);
-    final org.springframework.security.core.Authentication authentication =
-        new UsernamePasswordAuthenticationToken(user, null, authorities);
-    log.debug("Logging in with {}", authentication.getPrincipal());
-    SecurityContextHolder.getContext().setAuthentication(authentication);
+    this.authenticator.doLogin(user);
+    System.out.println(SecurityContextHolder.getContext().getAuthentication().getCredentials());
     log.exit();
   }
 }

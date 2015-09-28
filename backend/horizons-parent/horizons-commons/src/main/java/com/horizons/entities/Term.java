@@ -5,8 +5,8 @@
 
 package com.horizons.entities;
 
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -33,7 +33,7 @@ public class Term {
   @Type(type = "org.joda.time.contrib.hibernate.PersistentLocalDate")
   private LocalDate end;
   @OneToMany(mappedBy = "term")
-  private Set<CourseInstance> instances = new HashSet<>();
+  private Collection<CourseInstance> instances = new HashSet<>();
   @Column
   private String name;
   @Column

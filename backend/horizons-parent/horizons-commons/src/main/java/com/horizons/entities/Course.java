@@ -5,8 +5,8 @@
 
 package com.horizons.entities;
 
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -27,10 +27,16 @@ import org.hibernate.annotations.GenericGenerator;
 @Data
 @Entity
 public class Course {
+  @Column
+  private int courseNumber;
   @ManyToMany
-  private Set<Department> department = new HashSet<>();
+  private Collection<Department> department = new HashSet<>();
   @ManyToMany(mappedBy = "courses")
-  private Set<Requirement> requirements = new HashSet<>();
+  private Collection<Requirement> requirements = new HashSet<>();
+  @Column
+  private String title;
+  @Column
+  private int units;
   @Id
   @Column(columnDefinition = "BINARY(16)")
   @GeneratedValue(generator = "uuid2")

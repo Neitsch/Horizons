@@ -13,22 +13,23 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 /**
  * @author nschuste
  * @version 1.0.0
- * @since Sep 24, 2015
+ * @since Sep 25, 2015
  */
-@Configuration
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+@Configuration
+public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
   /**
    * {@inheritDoc}
    *
    * @author nschuste
    * @version 1.0.0
    * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.HttpSecurity)
-   * @since Sep 24, 2015
+   * @since Sep 25, 2015
    */
   @Override
   protected void configure(final HttpSecurity http) throws Exception {
+    // http.authorizeRequests().antMatchers("/public/**",
+    // "/authz/login").permitAll().anyRequest().authenticated().and().csrf().disable();
     http.csrf().disable();
-    super.configure(http);
   }
 }
