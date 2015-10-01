@@ -5,6 +5,7 @@
 
 package com.horizons.entities;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -39,7 +40,7 @@ public class User {
   @Column
   private String lastName;
   @ManyToMany
-  private Set<Schedule> schedules = new HashSet<>();
+  private Collection<Schedule> schedules = new HashSet<>();
   @Column
   private String username;
   @Id

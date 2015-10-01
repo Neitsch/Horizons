@@ -18,4 +18,5 @@ import com.horizons.generics.GenericDaoImpl;
  */
 @Repository
 public class CourseDaoImpl extends GenericDaoImpl<Course> implements CourseDao {
+
 }

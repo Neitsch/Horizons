@@ -43,7 +43,7 @@ public class Application {
   public Application() {}
 
   public static void main(final String[] args) {
-    log.entry(args);
+    log.entry((Object[]) args);
     System.setProperty("https.protocols", "SSLv3,SSLv2Hello,TLSv1");
     final ApplicationContext context = SpringApplication.run(Application.class, args);
     context.getBean(ClassScraper.class).getClasses();

@@ -28,7 +28,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Data
 public class Instructor {
   @ManyToMany(mappedBy = "instructors", cascade = {javax.persistence.CascadeType.ALL})
-  private Collection<CourseInstance> instances = new HashSet<>();
+  private Collection<Course> instances = new HashSet<>();
   @Column
   private String name;
   @Id

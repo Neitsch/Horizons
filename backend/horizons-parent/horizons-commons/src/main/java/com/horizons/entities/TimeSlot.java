@@ -34,7 +34,7 @@ public class TimeSlot {
   @Type(type = "org.joda.time.contrib.hibernate.PersistentLocalTimeAsTime")
   private LocalTime end;
   @ManyToMany(mappedBy = "slots")
-  private Collection<CourseInstance> instances = new HashSet<>();
+  private Collection<Course> instances = new HashSet<>();
   @Column
   @Type(type = "org.joda.time.contrib.hibernate.PersistentLocalTimeAsTime")
   private LocalTime start;

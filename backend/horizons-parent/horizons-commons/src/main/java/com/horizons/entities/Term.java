@@ -33,7 +33,7 @@ public class Term {
   @Type(type = "org.joda.time.contrib.hibernate.PersistentLocalDate")
   private LocalDate end;
   @OneToMany(mappedBy = "term")
-  private Collection<CourseInstance> instances = new HashSet<>();
+  private Collection<Course> instances = new HashSet<>();
   @Column
   private String name;
   @Column

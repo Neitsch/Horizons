@@ -10,7 +10,7 @@ import java.io.IOException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.horizons.scraper.ClassScraper.CourseRaw;
+import com.horizons.to.CourseRaw;
 
 /**
  * @author nschuste
@@ -31,5 +31,10 @@ public class ClassScraping_Test {
     final CourseRaw course =
         scraper
             .courseFromUrl("https://bannerweb.lawrence.edu/pls/voyager/bwckschd.p_lu_call_unsec?last_term_in=201550&term_in=201550&ptrm_in=1&crn_in=5052&subj_code_in=ANTH&crse_numb_in=200&seq_numb_in=0&regstart_fdate_in=&regstart_tdate_in=");
+  }
+
+  @Test
+  public void test() {
+    scraper.ensureDepartmentExists("East Asian Studies Program (EAST)");
   }
 }

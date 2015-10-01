@@ -11,8 +11,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import lombok.Data;
 import lombok.extern.slf4j.XSlf4j;
 
 import org.jsoup.Jsoup;
@@ -24,8 +25,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.horizons.entities.Course;
 import com.horizons.service.CourseService;
+import com.horizons.service.DepartmentService;
+import com.horizons.to.CourseRaw;
 
 /**
  * @author nschuste
@@ -35,29 +37,6 @@ import com.horizons.service.CourseService;
 @Component
 @XSlf4j
 public class ClassScraper {
-  final @Data public static class CourseRaw {
-    private String attributes;
-    private String classTime;
-    private String course;
-    private String crn;
-    private String description;
-    private String instructor;
-    private String prerequisites;
-    private String term;
-    private String title;
-    private String units;
-
-    /**
-     * @author nschuste
-     * @version 1.0.0
-     * @return
-     * @since Sep 27, 2015
-     */
-    public Course toCourse() {
-      return null;
-    }
-  }
-
   private static final String BASE_URL = "https://bannerweb.lawrence.edu";
 
   private static final String CLASS_TIME = "Class Time";
@@ -65,6 +44,9 @@ public class ClassScraper {
   private static final String COURSE = "Course";
 
   private static final String CRN = "CRN";
+
+  private static final Pattern DEPARTMENT_REGEX_PATTERN = Pattern
+      .compile("([a-zA-Z \\-\\&]+) \\(([A-Z\\-]{3,})\\)");
 
   private static final String INSTRUCTOR = "Instructors";
 
@@ -79,9 +61,11 @@ public class ClassScraper {
   private static final String TITLE = "Title";
 
   private static final String UNITS = "Units";
-
   @Autowired
   CourseService courseService;
+
+  @Autowired
+  DepartmentService departmentService;
 
   @Scheduled(cron = "*/H * * * *")
   @Transactional
@@ -95,7 +79,7 @@ public class ClassScraper {
       }
       for (final String course : allClasses) {
         final CourseRaw rawCourse = this.courseFromUrl(BASE_URL + course);
-        this.persistCourse(rawCourse.toCourse());
+        this.courseService.persistRawCourse(rawCourse);
       }
     } catch (final Exception e) {
       log.catching(e);
@@ -174,23 +158,14 @@ public class ClassScraper {
     final Set<String> subjects = new HashSet<>();
     final Document doc =
         Jsoup.connect("https://www.lawrence.edu/s/registrar/catalog/cs-current").get();
-    final Elements elem = doc.select("#node-7150 li a[href]");
+    final Elements elem = doc.select("#node-7150 li");
     final Iterator<Element> iter = elem.iterator();
     while (iter.hasNext()) {
       final Element element = iter.next();
-      subjects.add(element.attr("href"));
+      this.ensureDepartmentExists(element.text());
+      subjects.add(element.select("a[href]").attr("href"));
     }
     return log.exit(subjects);
-  }
-
-  /**
-   * @author nschuste
-   * @version 1.0.0
-   * @param course2
-   * @since Sep 27, 2015
-   */
-  private void persistCourse(final Course course) {
-
   }
 
   private void testFieldForRelevance(final String raw, final CourseRaw course) {
@@ -200,6 +175,19 @@ public class ClassScraper {
       course.setDescription(raw.substring(REGEX_DESCRIPTION.length()));
     } else if (raw.matches("^" + REGEX_ATTRIBUTES + ".*")) {
       course.setAttributes(raw.substring(REGEX_ATTRIBUTES.length()));
+    }
+  }
+
+  /**
+   * @author nschuste
+   * @version 1.0.0
+   * @param text
+   * @since Sep 28, 2015
+   */
+  void ensureDepartmentExists(final String text) {
+    final Matcher m = DEPARTMENT_REGEX_PATTERN.matcher(text);
+    while (m.find()) {
+      this.departmentService.ensureDepartmentExists(m.group(1), m.group(2));
     }
   }
 }

@@ -15,4 +15,13 @@ import com.horizons.generics.GenericDao;
  */
 public interface DepartmentDao extends GenericDao<Department> {
 
+  /**
+   * @author nschuste
+   * @version 1.0.0
+   * @param departmentName
+   * @return
+   * @since Sep 28, 2015
+   */
+  Department findByShortName(String departmentName);
+
 }

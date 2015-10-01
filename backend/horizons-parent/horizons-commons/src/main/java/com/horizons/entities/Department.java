@@ -15,7 +15,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -26,11 +29,16 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Data
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Department {
   @ManyToMany(mappedBy = "department")
   private Collection<Course> courses = new HashSet<>();
-  @Column
+  @Column(unique = true)
   private String name;
+  @Column(unique = true, nullable = false)
+  private String shortName;
   @Id
   @Column(columnDefinition = "BINARY(16)")
   @GeneratedValue(generator = "uuid2")

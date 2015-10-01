@@ -29,7 +29,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Data
 public class Schedule {
   @ManyToMany
-  private Collection<CourseInstance> instances = new HashSet<>();
+  private Collection<Course> instances = new HashSet<>();
   @ManyToOne
   private Term term;
   @Id

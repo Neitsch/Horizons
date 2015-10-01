@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import lombok.extern.slf4j.XSlf4j;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +33,12 @@ public abstract class GenericDaoImpl<E> implements GenericDao<E> {
    * @version 1.0.0
    * @since Sep 9, 2015
    */
+  @SuppressWarnings("unchecked")
   public GenericDaoImpl() {
     log.entry();
     final Type t = this.getClass().getGenericSuperclass();
     final ParameterizedType pt = (ParameterizedType) t;
-    this.daoType = (Class) pt.getActualTypeArguments()[0];
+    this.daoType = (Class<? extends E>) pt.getActualTypeArguments()[0];
     log.debug("Got daoType: " + this.daoType.getName());
     log.exit();
   }
@@ -94,6 +96,7 @@ public abstract class GenericDaoImpl<E> implements GenericDao<E> {
    * @see com.schuster.dao.GenericDao#getAll()
    * @since Sep 9, 2015
    */
+  @SuppressWarnings("unchecked")
   @Override
   public List<E> getAll() {
     log.entry();
@@ -111,7 +114,7 @@ public abstract class GenericDaoImpl<E> implements GenericDao<E> {
   @Override
   public E read(final UUID key) {
     log.entry(key);
-    return log.exit((E) this.currentSession().get(this.daoType, key));
+    return log.exit(this.currentSession().get(this.daoType, key));
   }
 
   /**
@@ -131,5 +134,9 @@ public abstract class GenericDaoImpl<E> implements GenericDao<E> {
 
   protected Session currentSession() {
     return this.sessionFactory.getCurrentSession();
+  }
+
+  protected Criteria getCriteriaForClass() {
+    return this.sessionFactory.getCurrentSession().createCriteria(this.daoType);
   }
 }
