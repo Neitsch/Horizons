@@ -40,7 +40,7 @@ public class CourseDataParser {
    * @since Oct 1, 2015
    */
   public static Set<String> parseInstructors(final String instructor) {
-    return parseGen(instructor, REQUIREMENTS_PATTERN);
+    return parseGen(instructor, INSTRUCTOR_PATTERN);
   }
 
   public static Set<String> parseRequirements(final String req) {
