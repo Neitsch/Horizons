@@ -15,4 +15,13 @@ import com.horizons.generics.GenericDao;
  */
 public interface InstructorDao extends GenericDao<Instructor> {
 
+  /**
+   * @author nschuste
+   * @version 1.0.0
+   * @param instructor
+   * @return
+   * @since Oct 1, 2015
+   */
+  Instructor findByName(String instructor);
+
 }

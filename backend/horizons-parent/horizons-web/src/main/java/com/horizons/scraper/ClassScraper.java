@@ -14,6 +14,9 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+
 import lombok.extern.slf4j.XSlf4j;
 
 import org.jsoup.Jsoup;
@@ -25,9 +28,13 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.horizons.Application;
+import com.horizons.dao.RequirementDao;
+import com.horizons.entities.Requirement;
 import com.horizons.service.CourseService;
 import com.horizons.service.DepartmentService;
 import com.horizons.to.CourseRaw;
+import com.horizons.to.SetContainer;
 
 /**
  * @author nschuste
@@ -59,27 +66,43 @@ public class ClassScraper {
   private static final String TERM = "Term";
 
   private static final String TITLE = "Title";
-
   private static final String UNITS = "Units";
-  @Autowired
-  CourseService courseService;
 
   @Autowired
-  DepartmentService departmentService;
+  private CourseService courseService;
+
+  @Autowired
+  private DepartmentService departmentService;
+
+  @Autowired
+  private RequirementDao requirementDao;
 
   @Scheduled(cron = "*/H * * * *")
   @Transactional
   public void getClasses() {
     log.entry();
     try {
+      this.ensureRequirementsExist();
+      int count = 10;
       final Set<String> subjects = this.getSubjects();
       final Set<String> allClasses = new HashSet<>();
       for (final String subject : subjects) {
         allClasses.addAll(this.getClasses(subject));
+        count--;
+        if (count < 0) {
+          break;
+        }
       }
+      count = 40;
       for (final String course : allClasses) {
         final CourseRaw rawCourse = this.courseFromUrl(BASE_URL + course);
-        this.courseService.persistRawCourse(rawCourse);
+        if (rawCourse != null) {
+          this.courseService.persistRawCourse(rawCourse);
+        }
+        count--;
+        if (count < 0) {
+          break;
+        }
       }
     } catch (final Exception e) {
       log.catching(e);
@@ -95,8 +118,11 @@ public class ClassScraper {
       this.testFieldForRelevance(Jsoup.parse(row).text(), course);
     }
     elem =
-        doc.select(".pagebodydiv > .datadisplaytable > tbody > tr > td > .datadisplaytable > tbody > tr");
+        doc.select(".pagebodydiv > .datadisplaytable > tbody > tr > td > .datadisplaytable:first-of-type > tbody > tr");
     final Map<String, String> pairs = this.extractPairs(elem);
+    if (pairs.get(CRN).length() <= 2) {
+      return null;
+    }
     course.setClassTime(pairs.get(CLASS_TIME));
     course.setCourse(pairs.get(COURSE));
     course.setCrn(pairs.get(CRN));
@@ -105,7 +131,24 @@ public class ClassScraper {
     course.setTitle(pairs.get(TITLE));
     course.setUnits(pairs.get(UNITS));
     System.out.println(course);
-    return null;
+    return course;
+  }
+
+  private void ensureRequirementsExist() {
+    try {
+      final SetContainer<Requirement> req =
+          (SetContainer<Requirement>) JAXBContext.newInstance(SetContainer.class)
+              .createUnmarshaller()
+              .unmarshal(Application.class.getResourceAsStream("/requirements.xml"));
+      for (final Requirement re : req.getSet()) {
+        final Requirement save = this.requirementDao.findByShort(re.getRequirement());
+        if (save == null) {
+          this.requirementDao.create(re);
+        }
+      }
+    } catch (final JAXBException e) {
+      log.catching(e);
+    }
   }
 
   /**

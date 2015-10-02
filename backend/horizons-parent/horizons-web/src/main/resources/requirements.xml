@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<set>
+    <element xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:type="requirement"
+    >
+        <name>Arts Requirement</name>
+        <requirement>DIV_ARTS</requirement>
+        <classViewRepresentation>Fine Arts Div</classViewRepresentation> 
+    </element>
+    <element xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:type="requirement"
+    >
+        <name>Dimensions of Diversity</name>
+        <requirement>DIV_DIVERSITY</requirement>
+        <classViewRepresentation>Diversity-Dimens</classViewRepresentation>
+    </element>
+    <element xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:type="requirement"
+    >
+        <name>Global Diversity</name>
+        <requirement>DIV_GLOBAL</requirement>
+        <classViewRepresentation>Diversity-Global</classViewRepresentation>
+    </element>
+    <element xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:type="requirement"
+    >
+        <name>Humanities</name>
+        <requirement>DIV_HUMANITIES</requirement>
+        <classViewRepresentation>Humanities Div</classViewRepresentation>
+    </element>
+    <element xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:type="requirement"
+    >
+        <name>Quantitative Requirement</name>
+        <requirement>DIV_QUANT</requirement>
+        <classViewRepresentation>Quantitative Analy</classViewRepresentation>
+    </element>
+    <element xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:type="requirement"
+    >
+        <name>Speaking Intensive</name>
+        <requirement>DIV_S</requirement>
+        <classViewRepresentation>Speaking Intensive</classViewRepresentation>
+    </element>
+    <element xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:type="requirement"
+    >
+        <name>Natural Sciences</name>
+        <requirement>DIV_SCIENCE</requirement>
+        <classViewRepresentation>Nat Science Div</classViewRepresentation>
+    </element>
+    <element xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:type="requirement"
+    >
+        <name>Social Sciences</name>
+        <requirement>DIV_SOCIAL</requirement>
+        <classViewRepresentation>Social Science Div</classViewRepresentation>
+    </element>
+    <element xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:type="requirement"
+    >
+        <name>Writing Intensive</name>
+        <requirement>DIV_W</requirement>
+        <classViewRepresentation>Writing Intensive</classViewRepresentation>
+    </element>
+    <element xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:type="requirement"
+    >
+        <name>Laboratory Course</name>
+        <requirement>DIV_LAB</requirement>
+        <classViewRepresentation>NS Lab Course</classViewRepresentation>
+    </element>
+</set>

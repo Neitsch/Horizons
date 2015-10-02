@@ -15,7 +15,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -26,10 +29,13 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Instructor {
   @ManyToMany(mappedBy = "instructors", cascade = {javax.persistence.CascadeType.ALL})
   private Collection<Course> instances = new HashSet<>();
-  @Column
+  @Column(unique = true)
   private String name;
   @Id
   @Column(columnDefinition = "BINARY(16)")

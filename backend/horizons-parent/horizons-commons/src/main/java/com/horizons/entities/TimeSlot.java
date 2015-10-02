@@ -16,7 +16,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -29,13 +32,16 @@ import org.joda.time.LocalTime;
  */
 @Data
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class TimeSlot {
-  @Column
+  @Column(nullable = false)
   @Type(type = "org.joda.time.contrib.hibernate.PersistentLocalTimeAsTime")
   private LocalTime end;
   @ManyToMany(mappedBy = "slots")
   private Collection<Course> instances = new HashSet<>();
-  @Column
+  @Column(nullable = false)
   @Type(type = "org.joda.time.contrib.hibernate.PersistentLocalTimeAsTime")
   private LocalTime start;
   @Id
@@ -43,6 +49,6 @@ public class TimeSlot {
   @GeneratedValue(generator = "uuid2")
   @GenericGenerator(name = "uuid2", strategy = "uuid2")
   private UUID uuid;
-  @Column
+  @Column(nullable = false)
   private DayOfWeek weekDay;
 }

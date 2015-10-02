@@ -55,6 +55,7 @@ public abstract class GenericDaoImpl<E> implements GenericDao<E> {
   public UUID create(final E entity) {
     log.entry(entity);
     final UUID key = (UUID) this.currentSession().save(entity);
+    this.currentSession().flush();
     return log.exit(key);
   }
 
@@ -114,7 +115,7 @@ public abstract class GenericDaoImpl<E> implements GenericDao<E> {
   @Override
   public E read(final UUID key) {
     log.entry(key);
-    return log.exit(this.currentSession().get(this.daoType, key));
+    return (E) log.exit(this.currentSession().get(this.daoType, key));
   }
 
   /**

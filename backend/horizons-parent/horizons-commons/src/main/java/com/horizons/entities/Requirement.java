@@ -27,10 +27,20 @@ import org.hibernate.annotations.GenericGenerator;
 @Data
 @Entity
 public class Requirement {
+  public enum RequirementEnum {
+    DIV_ARTS, DIV_DIVERSITY, DIV_GLOBAL, DIV_HUMANITIES, DIV_QUANT, DIV_S, DIV_SCIENCE, DIV_SOCIAL,
+    DIV_W
+  }
+
+  @Column
+  // (unique = true)
+  private String classViewRepresentation;
   @ManyToMany
   private Collection<Course> courses = new HashSet<>();
-  @Column
+  @Column(unique = true)
   private String name;
+  @Column(unique = true)
+  private RequirementEnum requirement;
   @Id
   @Column(columnDefinition = "BINARY(16)")
   @GeneratedValue(generator = "uuid2")
