@@ -60,6 +60,19 @@ public class CourseServiceImpl implements CourseService {
    *
    * @author nschuste
    * @version 1.0.0
+   * @see com.horizons.service.CourseService#getAllCourses()
+   * @since Oct 2, 2015
+   */
+  @Override
+  public Collection<Course> getAllCourses() {
+    return this.dao.getAll();
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @author nschuste
+   * @version 1.0.0
    * @see com.horizons.service.CourseInstanceService#persistRawCourse(com.horizons.to.CourseRaw)
    * @since Sep 28, 2015
    */

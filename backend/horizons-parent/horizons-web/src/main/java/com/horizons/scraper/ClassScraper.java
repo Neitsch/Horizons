@@ -77,7 +77,7 @@ public class ClassScraper {
   @Autowired
   private RequirementDao requirementDao;
 
-  @Scheduled(cron = "*/H * * * *")
+  @Scheduled(cron = "4 0 * * *")
   @Transactional
   public void getClasses() {
     log.entry();
@@ -175,7 +175,7 @@ public class ClassScraper {
   private Set<String> getClasses(final String string) throws IOException {
     log.entry(string);
     final Set<String> classes = new HashSet<>();
-    final Document doc = Jsoup.connect(string).get();
+    final Document doc = Jsoup.connect(string).timeout(10000).get();
     final Elements elem =
         doc.select(".pagebodydiv > .datadisplaytable > tbody > tr > td.dddefault > a[href]");
     final Iterator<Element> iter = elem.iterator();

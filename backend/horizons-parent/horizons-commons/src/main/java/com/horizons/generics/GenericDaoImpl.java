@@ -24,7 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @XSlf4j
 public abstract class GenericDaoImpl<E> implements GenericDao<E> {
-  private static final int BATCH_SIZE = 1;
+  private static final int BATCH_SIZE = 1000000; // only use lower values for debugging purposes ->
+                                                 // MySQL constraint violation exceptions can be
+                                                 // analysed better
   private static int count = 0;
   protected Class<? extends E> daoType;
   @Autowired
