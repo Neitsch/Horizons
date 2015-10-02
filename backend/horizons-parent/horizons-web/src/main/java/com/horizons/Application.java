@@ -9,7 +9,6 @@ import java.net.MalformedURLException;
 
 import lombok.extern.slf4j.XSlf4j;
 
-import org.perf4j.aop.Profiled;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -50,7 +49,6 @@ public class Application {
    */
   public Application() {}
 
-  @Profiled(tag = "tag")
   public static void main(final String[] args) {
     log.entry((Object[]) args);
     System.setProperty("https.protocols", "SSLv3,SSLv2Hello,TLSv1");

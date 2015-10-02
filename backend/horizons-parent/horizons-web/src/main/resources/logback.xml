@@ -24,7 +24,6 @@
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
     </root>
-    <logger name="org.perf4j" level="ALL" />
     <logger name="com.horizons" level="ALL" />
     <logger name="org.apache.commons.httpclient" level="WARN"/>
 </configuration>
