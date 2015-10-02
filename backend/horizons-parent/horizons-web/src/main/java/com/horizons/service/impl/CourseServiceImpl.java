@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import lombok.extern.slf4j.XSlf4j;
 
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +21,13 @@ import com.horizons.dao.CourseDao;
 import com.horizons.dao.DepartmentDao;
 import com.horizons.dao.InstructorDao;
 import com.horizons.dao.RequirementDao;
+import com.horizons.dao.TermDao;
 import com.horizons.dao.TimeSlotDao;
 import com.horizons.entities.Course;
 import com.horizons.entities.Department;
 import com.horizons.entities.Instructor;
 import com.horizons.entities.Requirement;
+import com.horizons.entities.Term;
 import com.horizons.entities.TimeSlot;
 import com.horizons.parser.CourseDataParser;
 import com.horizons.service.CourseService;
@@ -48,6 +51,8 @@ public class CourseServiceImpl implements CourseService {
   @Autowired
   private RequirementDao requirementDao;
   @Autowired
+  private TermDao termDao;
+  @Autowired
   private TimeSlotDao timeSlotDao;
 
   /**
@@ -61,15 +66,40 @@ public class CourseServiceImpl implements CourseService {
   @Override
   public void persistRawCourse(final CourseRaw rawCourse) {
     log.entry(rawCourse);
+    boolean update = true;
     final String departmentName = rawCourse.getCourse().split(" ")[0];
+    final Term term = this.findTerm(rawCourse.getTerm());
     final Department department = this.departmentDao.findByShortName(departmentName);
-    final Course course = new Course();
+    Course course =
+        this.dao.findByDepNumTerm(department,
+            Integer.parseInt(rawCourse.getCourse().split(" ")[1]), term);
+    if (course == null) {
+      course = new Course();
+      update = false;
+    }
     course.setDepartment(Arrays.asList(department));
     course.setSlots(this.findSlots(CourseDataParser.parseTime(rawCourse.getClassTime())));
     course.setInstructors(this.findInstructors(CourseDataParser.parseInstructors(rawCourse
         .getInstructor())));
     course.setRequirements(this.findRequirements(CourseDataParser.parseRequirements(rawCourse
         .getAttributes())));
+    course.setCourseNumber(Integer.parseInt(rawCourse.getCourse().split(" ")[1]));
+    course.setDescription(rawCourse.getDescription());
+    course.setPrerequisites(rawCourse.getPrerequisites());
+    course.setTitle(rawCourse.getTitle());
+    course.setTerm(term);
+    try {
+      course.setUnits(Integer.parseInt(rawCourse.getUnits()));
+    } catch (final NumberFormatException e) {
+      course.setUnits(-1);
+    }
+    if (!update) {
+      this.dao.create(course);
+      log.info("Created new course:");
+      log.info(course.getTitle());
+    } else {
+      this.dao.update(course);
+    }
     log.exit();
   }
 
@@ -137,5 +167,25 @@ public class CourseServiceImpl implements CourseService {
       slots.add(slot);
     }
     return slots;
+  }
+
+  /**
+   * @author nschuste
+   * @version 1.0.0
+   * @param term
+   * @return
+   * @since Oct 1, 2015
+   */
+  private Term findTerm(final String term) {
+    Term result = this.termDao.findByName(term);
+    if (result == null) {
+      result = new Term();
+      result.setName(term);
+      result.setStart(new LocalDate(2000, 1, 1));
+      result.setEnd(new LocalDate(2000, 1, 2));
+      final UUID id = this.termDao.create(result);
+      result = this.termDao.read(id);
+    }
+    return result;
   }
 }

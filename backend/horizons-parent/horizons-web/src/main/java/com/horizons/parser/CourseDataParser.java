@@ -48,6 +48,7 @@ public class CourseDataParser {
   }
 
   public static Set<CalendarItem> parseTime(final String raw) {
+    log.entry(raw);
     final Matcher m = CLASS_TIME_PATTERN.matcher(raw);
     final Set<CalendarItem> items = new HashSet<>();
     while (m.find()) {
@@ -63,7 +64,7 @@ public class CourseDataParser {
       }
       items.addAll(current);
     }
-    return items;
+    return log.exit(items);
   }
 
   /**
@@ -85,6 +86,8 @@ public class CourseDataParser {
         return DayOfWeek.THURSDAY;
       case "F":
         return DayOfWeek.FRIDAY;
+      case "S":
+        return DayOfWeek.SATURDAY;
     }
     return null;
   }

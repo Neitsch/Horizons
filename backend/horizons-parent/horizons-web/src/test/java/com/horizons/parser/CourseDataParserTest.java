@@ -18,5 +18,6 @@ public class CourseDataParserTest {
     System.out.println(CourseDataParser.parseTime("01:50-03:00 MWF BRIG 305"));
     System.out.println(CourseDataParser
         .parseTime("09:50-11:00 MWF SCIE 102 08:00-11:00 T SCIE 116"));
+    System.out.println(CourseDataParser.parseTime("Arranged"));
   }
 }

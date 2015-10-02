@@ -24,6 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @XSlf4j
 public abstract class GenericDaoImpl<E> implements GenericDao<E> {
+  private static final int BATCH_SIZE = 1;
+  private static int count = 0;
   protected Class<? extends E> daoType;
   @Autowired
   protected final SessionFactory sessionFactory = null;
@@ -53,9 +55,12 @@ public abstract class GenericDaoImpl<E> implements GenericDao<E> {
    */
   @Override
   public UUID create(final E entity) {
-    log.entry(entity);
+    log.entry();
     final UUID key = (UUID) this.currentSession().save(entity);
-    this.currentSession().flush();
+    count++;
+    if (count % BATCH_SIZE == 0) {
+      this.currentSession().flush();
+    }
     return log.exit(key);
   }
 
@@ -69,8 +74,12 @@ public abstract class GenericDaoImpl<E> implements GenericDao<E> {
    */
   @Override
   public void createOrUpdate(final E entity) {
-    log.entry(entity);
+    log.entry();
     this.currentSession().saveOrUpdate(entity);
+    count++;
+    if (count % BATCH_SIZE == 0) {
+      this.currentSession().flush();
+    }
     log.exit();
   }
 
@@ -84,8 +93,12 @@ public abstract class GenericDaoImpl<E> implements GenericDao<E> {
    */
   @Override
   public void delete(final E entity) {
-    log.entry(entity);
+    log.entry();
     this.currentSession().delete(entity);
+    count++;
+    if (count % BATCH_SIZE == 0) {
+      this.currentSession().flush();
+    }
     log.exit();
   }
 
@@ -101,7 +114,7 @@ public abstract class GenericDaoImpl<E> implements GenericDao<E> {
   @Override
   public List<E> getAll() {
     log.entry();
-    return log.exit(this.currentSession().createCriteria(this.daoType).list());
+    return this.currentSession().createCriteria(this.daoType).list();
   }
 
   /**
@@ -115,7 +128,7 @@ public abstract class GenericDaoImpl<E> implements GenericDao<E> {
   @Override
   public E read(final UUID key) {
     log.entry(key);
-    return (E) log.exit(this.currentSession().get(this.daoType, key));
+    return (E) this.currentSession().get(this.daoType, key);
   }
 
   /**
@@ -128,8 +141,13 @@ public abstract class GenericDaoImpl<E> implements GenericDao<E> {
    */
   @Override
   public void update(final E entity) {
-    log.entry(entity);
+    log.entry();
     this.currentSession().update(entity);
+    count++;
+    if (count % BATCH_SIZE == 0) {
+      this.currentSession().getTransaction().commit();
+      this.currentSession().beginTransaction();
+    }
     log.exit();
   }
 

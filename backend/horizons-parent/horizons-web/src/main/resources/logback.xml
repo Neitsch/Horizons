@@ -13,8 +13,16 @@
       </pattern>
         </encoder>
     </appender>
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+      <file> log-${byDay}.log </file>
+      <append>true</append>
+      <encoder>
+         <pattern>%highlight(%d{ISO8601} %-5level ([%15.15t]\) [%-40.40logger{39}:%4.4L] - %msg) %n</pattern>
+      </encoder>
+   </appender>
     <root level="INFO">
         <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
     </root>
     <logger name="com.horizons" level="ALL" />
     <logger name="org.apache.commons.httpclient" level="WARN"/>

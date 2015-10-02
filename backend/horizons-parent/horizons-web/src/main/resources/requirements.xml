@@ -67,7 +67,7 @@
         xsi:type="requirement"
     >
         <name>Laboratory Course</name>
-        <requirement>DIV_LAB</requirement>
+        <requirement>NS_LAB</requirement>
         <classViewRepresentation>NS Lab Course</classViewRepresentation>
     </element>
 </set>

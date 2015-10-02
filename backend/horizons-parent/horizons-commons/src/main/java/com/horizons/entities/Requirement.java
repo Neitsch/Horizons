@@ -29,11 +29,10 @@ import org.hibernate.annotations.GenericGenerator;
 public class Requirement {
   public enum RequirementEnum {
     DIV_ARTS, DIV_DIVERSITY, DIV_GLOBAL, DIV_HUMANITIES, DIV_QUANT, DIV_S, DIV_SCIENCE, DIV_SOCIAL,
-    DIV_W
+    DIV_W, NS_LAB
   }
 
-  @Column
-  // (unique = true)
+  @Column(unique = true)
   private String classViewRepresentation;
   @ManyToMany
   private Collection<Course> courses = new HashSet<>();

@@ -15,4 +15,13 @@ import com.horizons.generics.GenericDao;
  */
 public interface TermDao extends GenericDao<Term> {
 
+  /**
+   * @author nschuste
+   * @version 1.0.0
+   * @param term
+   * @return
+   * @since Oct 1, 2015
+   */
+  Term findByName(String term);
+
 }

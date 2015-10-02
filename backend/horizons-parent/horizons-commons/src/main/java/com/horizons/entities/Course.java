@@ -38,11 +38,11 @@ public class Course {
   private int courseNumber;
   @ManyToMany
   private Collection<Department> department = new HashSet<>();
-  @Column
+  @Column(columnDefinition = "TEXT")
   private String description;
   @ManyToMany
   private Collection<Instructor> instructors = new HashSet<>();
-  @Column
+  @Column(columnDefinition = "TEXT")
   private String prerequisites;
   @ManyToMany(mappedBy = "courses")
   private Collection<Requirement> requirements = new HashSet<>();

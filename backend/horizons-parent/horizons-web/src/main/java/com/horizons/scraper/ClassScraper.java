@@ -83,25 +83,15 @@ public class ClassScraper {
     log.entry();
     try {
       this.ensureRequirementsExist();
-      int count = 10;
       final Set<String> subjects = this.getSubjects();
       final Set<String> allClasses = new HashSet<>();
       for (final String subject : subjects) {
         allClasses.addAll(this.getClasses(subject));
-        count--;
-        if (count < 0) {
-          break;
-        }
       }
-      count = 40;
       for (final String course : allClasses) {
         final CourseRaw rawCourse = this.courseFromUrl(BASE_URL + course);
         if (rawCourse != null) {
           this.courseService.persistRawCourse(rawCourse);
-        }
-        count--;
-        if (count < 0) {
-          break;
         }
       }
     } catch (final Exception e) {
