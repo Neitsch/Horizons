@@ -7,6 +7,7 @@ package com.horizons.service;
 
 import java.util.Collection;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.horizons.entities.Course;
@@ -28,6 +29,7 @@ public interface CourseService {
    * @since Oct 2, 2015
    */
   @Transactional(readOnly = true)
+  @Cacheable(value = "allCourses")
   Collection<Course> getAllCourses();
 
   /**

@@ -24,6 +24,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -79,6 +80,7 @@ public class ClassScraper {
 
   @Scheduled(cron = "4 0 * * *")
   @Transactional
+  @CacheEvict(value = "allCourses", allEntries = true)
   public void getClasses() {
     log.entry();
     try {
@@ -94,6 +96,7 @@ public class ClassScraper {
           this.courseService.persistRawCourse(rawCourse);
         }
       }
+      this.courseService.getAllCourses();
     } catch (final Exception e) {
       log.catching(e);
     }

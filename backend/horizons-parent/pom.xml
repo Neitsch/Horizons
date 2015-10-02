@@ -9,6 +9,8 @@
         <joda.version>2.8.2</joda.version>
         <joda.hibernate.version>1.4</joda.hibernate.version>
         <jsoup.version>1.8.3</jsoup.version>
+        <ehcache.version>2.10.0</ehcache.version>
+        <perf4j.version>0.9.16</perf4j.version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -58,6 +60,18 @@
                 <groupId>org.jsoup</groupId>
                 <artifactId>jsoup</artifactId>
                 <version>${jsoup.version}</version>
+            </dependency>
+            <!-- EHCache -->
+            <dependency>
+                <groupId>net.sf.ehcache</groupId>
+                <artifactId>ehcache</artifactId>
+                <version>${ehcache.version}</version>
+            </dependency>
+            <!-- PERF4J -->
+            <dependency>
+                <groupId>org.perf4j</groupId>
+                <artifactId>perf4j</artifactId>
+                <version>${perf4j.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
