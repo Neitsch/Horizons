@@ -21,6 +21,9 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.horizons.jsonview.AllCoursesView;
+
 /**
  * @author nschuste
  * @version 1.0.0
@@ -31,13 +34,16 @@ import org.joda.time.LocalDate;
 public class Term {
   @Column
   @Type(type = "org.joda.time.contrib.hibernate.PersistentLocalDate")
+  @JsonView(AllCoursesView.class)
   private LocalDate end;
   @OneToMany(mappedBy = "term")
   private Collection<Course> instances = new HashSet<>();
   @Column
+  @JsonView(AllCoursesView.class)
   private String name;
   @Column
   @Type(type = "org.joda.time.contrib.hibernate.PersistentLocalDate")
+  @JsonView(AllCoursesView.class)
   private LocalDate start;
   @Id
   @Column(columnDefinition = "BINARY(16)")

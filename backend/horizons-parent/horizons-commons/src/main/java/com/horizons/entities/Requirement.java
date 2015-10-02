@@ -19,6 +19,9 @@ import lombok.Data;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.horizons.jsonview.AllCoursesView;
+
 /**
  * @author nschuste
  * @version 1.0.0
@@ -37,6 +40,7 @@ public class Requirement {
   @ManyToMany
   private Collection<Course> courses = new HashSet<>();
   @Column(unique = true)
+  @JsonView(AllCoursesView.class)
   private String name;
   @Column(unique = true)
   private RequirementEnum requirement;

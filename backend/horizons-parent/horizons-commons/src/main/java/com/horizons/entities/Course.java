@@ -22,6 +22,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+import com.fasterxml.jackson.annotation.JsonView;
+import com.horizons.jsonview.AllCoursesView;
 
 /**
  * @author nschuste
@@ -35,28 +40,43 @@ import org.hibernate.annotations.GenericGenerator;
 @NoArgsConstructor
 public class Course {
   @Column
+  @JsonView(AllCoursesView.class)
   private int courseNumber;
-  @ManyToMany
+  @ManyToMany()
+  @JsonView(AllCoursesView.class)
+  @LazyCollection(LazyCollectionOption.FALSE)
   private Collection<Department> department = new HashSet<>();
   @Column(columnDefinition = "TEXT")
+  @JsonView(AllCoursesView.class)
   private String description;
-  @ManyToMany
+  @ManyToMany()
+  @JsonView(AllCoursesView.class)
+  @LazyCollection(LazyCollectionOption.FALSE)
   private Collection<Instructor> instructors = new HashSet<>();
   @Column(columnDefinition = "TEXT")
+  @JsonView(AllCoursesView.class)
   private String prerequisites;
   @ManyToMany(mappedBy = "courses")
+  @JsonView(AllCoursesView.class)
+  @LazyCollection(LazyCollectionOption.FALSE)
   private Collection<Requirement> requirements = new HashSet<>();
-  @ManyToMany
+  @ManyToMany()
+  @LazyCollection(LazyCollectionOption.FALSE)
+  @JsonView(AllCoursesView.class)
   private Collection<TimeSlot> slots = new HashSet<>();
   @ManyToOne
+  @JsonView(AllCoursesView.class)
   private Term term;
   @Column
+  @JsonView(AllCoursesView.class)
   private String title;
   @Column
+  @JsonView(AllCoursesView.class)
   private int units;
   @Id
   @Column(columnDefinition = "BINARY(16)")
   @GeneratedValue(generator = "uuid2")
   @GenericGenerator(name = "uuid2", strategy = "uuid2")
+  @JsonView(AllCoursesView.class)
   private UUID uuid;
 }

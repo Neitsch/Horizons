@@ -25,6 +25,9 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.horizons.jsonview.AllCoursesView;
+
 /**
  * @author nschuste
  * @version 1.0.0
@@ -38,10 +41,12 @@ import org.joda.time.LocalTime;
 public class TimeSlot {
   @Column(nullable = false)
   @Type(type = "org.joda.time.contrib.hibernate.PersistentLocalTimeAsTime")
+  @JsonView(AllCoursesView.class)
   private LocalTime end;
   @ManyToMany(mappedBy = "slots")
   private Collection<Course> instances = new HashSet<>();
   @Column(nullable = false)
+  @JsonView(AllCoursesView.class)
   @Type(type = "org.joda.time.contrib.hibernate.PersistentLocalTimeAsTime")
   private LocalTime start;
   @Id
@@ -50,5 +55,6 @@ public class TimeSlot {
   @GenericGenerator(name = "uuid2", strategy = "uuid2")
   private UUID uuid;
   @Column(nullable = false)
+  @JsonView(AllCoursesView.class)
   private DayOfWeek weekDay;
 }

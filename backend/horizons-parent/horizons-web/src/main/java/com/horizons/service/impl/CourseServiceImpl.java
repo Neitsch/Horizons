@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import lombok.extern.slf4j.XSlf4j;
 
+import org.hibernate.SessionFactory;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,6 +55,8 @@ public class CourseServiceImpl implements CourseService {
   private TermDao termDao;
   @Autowired
   private TimeSlotDao timeSlotDao;
+  @Autowired
+  SessionFactory fact;
 
   /**
    * {@inheritDoc}
@@ -65,7 +68,9 @@ public class CourseServiceImpl implements CourseService {
    */
   @Override
   public Collection<Course> getAllCourses() {
-    return this.dao.getAll();
+    final Collection<Course> c = this.dao.getAll();
+    // Remove persistence bags
+    return c;
   }
 
   /**

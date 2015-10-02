@@ -22,6 +22,9 @@ import lombok.NoArgsConstructor;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.horizons.jsonview.AllCoursesView;
+
 /**
  * @author nschuste
  * @version 1.0.0
@@ -36,6 +39,7 @@ public class Instructor {
   @ManyToMany(mappedBy = "instructors", cascade = {javax.persistence.CascadeType.ALL})
   private Collection<Course> instances = new HashSet<>();
   @Column(unique = true)
+  @JsonView(AllCoursesView.class)
   private String name;
   @Id
   @Column(columnDefinition = "BINARY(16)")

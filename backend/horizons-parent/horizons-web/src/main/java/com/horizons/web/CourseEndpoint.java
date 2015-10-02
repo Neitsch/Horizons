@@ -6,8 +6,6 @@
 package com.horizons.web;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 import lombok.extern.slf4j.XSlf4j;
 
@@ -19,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.horizons.entities.Course;
+import com.horizons.jsonview.AllCoursesView;
 import com.horizons.service.CourseService;
 
 /**
@@ -46,13 +46,11 @@ public class CourseEndpoint {
   @RequestMapping(value = "/all", method = RequestMethod.GET, produces = "application/json")
   @PreAuthorize(value = "permitAll()")
   @ResponseStatus(value = HttpStatus.OK)
+  @JsonView(AllCoursesView.class)
   public Collection<Course> all() {
     log.entry();
     try {
-      // return this.service.getAllCourses();
-      final Set<Course> c = new HashSet<>();
-      c.add(Course.builder().courseNumber(200).build());
-      return log.exit(c);
+      return this.service.getAllCourses();
     } catch (final Exception e) {
       log.catching(e);
       return log.exit(null);
