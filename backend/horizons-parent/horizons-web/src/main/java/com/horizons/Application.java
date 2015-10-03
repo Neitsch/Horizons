@@ -26,6 +26,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.horizons.scraper.ClassScraper;
+
 /**
  * @author nschuste
  * @version 1.0.0
@@ -53,7 +55,7 @@ public class Application {
     log.entry((Object[]) args);
     System.setProperty("https.protocols", "SSLv3,SSLv2Hello,TLSv1");
     final ApplicationContext context = SpringApplication.run(Application.class, args);
-    // context.getBean(ClassScraper.class).getClasses();
+    context.getBean(ClassScraper.class).getClasses();
     log.exit();
   }
 

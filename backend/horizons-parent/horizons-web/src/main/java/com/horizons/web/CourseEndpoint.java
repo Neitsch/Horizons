@@ -9,6 +9,7 @@ import java.util.Collection;
 
 import lombok.extern.slf4j.XSlf4j;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,6 +32,7 @@ import com.horizons.service.CourseService;
 @RestController
 @RequestMapping("/course")
 public class CourseEndpoint {
+  public static DateTime lastUpdated;
   @Autowired
   private CourseService service;
 
@@ -55,5 +57,11 @@ public class CourseEndpoint {
       log.catching(e);
       return log.exit(null);
     }
+  }
+
+  @RequestMapping(value = "/updated")
+  @PreAuthorize(value = "permitAll()")
+  public String lastUpdated() {
+    return CourseEndpoint.lastUpdated.toString();
   }
 }

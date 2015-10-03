@@ -19,10 +19,12 @@ import javax.xml.bind.JAXBException;
 
 import lombok.extern.slf4j.XSlf4j;
 
+import org.joda.time.DateTime;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.profiler.Profiler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -36,6 +38,7 @@ import com.horizons.service.CourseService;
 import com.horizons.service.DepartmentService;
 import com.horizons.to.CourseRaw;
 import com.horizons.to.SetContainer;
+import com.horizons.web.CourseEndpoint;
 
 /**
  * @author nschuste
@@ -78,25 +81,34 @@ public class ClassScraper {
   @Autowired
   private RequirementDao requirementDao;
 
-  @Scheduled(cron = "4 0 * * *")
+  @Scheduled(cron = "0 4 * * *")
   @Transactional
   @CacheEvict(value = "allCourses", allEntries = true)
   public void getClasses() {
     log.entry();
     try {
+      final Profiler profiler = new Profiler("Course Data Scraping");
+      profiler.setLogger(log);
+      profiler.start("Check Requirements");
       this.ensureRequirementsExist();
+      profiler.start("Get Subjects");
       final Set<String> subjects = this.getSubjects();
+      profiler.start("Get Courses");
       final Set<String> allClasses = new HashSet<>();
       for (final String subject : subjects) {
         allClasses.addAll(this.getClasses(subject));
       }
+      profiler.start("Get Data from Courses");
       for (final String course : allClasses) {
         final CourseRaw rawCourse = this.courseFromUrl(BASE_URL + course);
         if (rawCourse != null) {
           this.courseService.persistRawCourse(rawCourse);
         }
       }
+      profiler.start("Update Cache");
       this.courseService.getAllCourses();
+      CourseEndpoint.lastUpdated = new DateTime();
+      profiler.stop().log();
     } catch (final Exception e) {
       log.catching(e);
     }
