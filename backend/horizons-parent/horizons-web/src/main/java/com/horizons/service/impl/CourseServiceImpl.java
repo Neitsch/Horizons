@@ -61,7 +61,7 @@ public class CourseServiceImpl implements CourseService {
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @author nschuste
    * @version 1.0.0
    * @see com.horizons.service.CourseService#byCrnAndTerm(java.lang.String)
@@ -95,7 +95,7 @@ public class CourseServiceImpl implements CourseService {
    * @see com.horizons.service.CourseInstanceService#persistRawCourse(com.horizons.to.CourseRaw)
    * @since Sep 28, 2015
    */
-  @JmsListener(destination = "courseRaw", concurrency = "1")
+  @JmsListener(destination = "courseRaw", concurrency = "12")
   @Override
   public void persistRawCourse(final CourseRaw rawCourse) {
     log.entry(rawCourse);

@@ -34,7 +34,7 @@ public class User implements Serializable {
   private Set<Course> courses;
   @Column
   private Date enrollmentDate;
-  @Column
+  @Column(unique = true)
   private String externalId;
   @Column
   private String firstName;
@@ -42,7 +42,7 @@ public class User implements Serializable {
   private String lastName;
   @ManyToMany
   private Collection<Schedule> schedules = new HashSet<>();
-  @Column
+  @Column(unique = true)
   private String username;
   @Id
   @Column(columnDefinition = "BINARY(16)")

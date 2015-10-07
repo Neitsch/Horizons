@@ -14,8 +14,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,6 +42,7 @@ import com.horizons.jsonview.AllCoursesView;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"crn", "termCol"})})
 public class Course implements Serializable {
   @Column
   @JsonView(AllCoursesView.class)
@@ -70,6 +74,7 @@ public class Course implements Serializable {
   private Collection<TimeSlot> slots = new HashSet<>();
   @ManyToOne
   @JsonView(AllCoursesView.class)
+  @JoinColumn(name = "termCol")
   private Term term;
   @Column
   @JsonView(AllCoursesView.class)

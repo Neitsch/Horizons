@@ -57,7 +57,6 @@ public abstract class GenericDaoImpl<E> implements GenericDao<E> {
    */
   @Override
   public UUID create(final E entity) {
-    log.entry();
     final UUID key = (UUID) this.currentSession().save(entity);
     count++;
     if (count % BATCH_SIZE == 0) {

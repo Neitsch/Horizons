@@ -5,6 +5,8 @@
 
 package com.horizons.dao.impl;
 
+import lombok.extern.slf4j.XSlf4j;
+
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +20,7 @@ import com.horizons.generics.GenericDaoImpl;
  * @since Sep 22, 2015
  */
 @Repository
+@XSlf4j
 public class TermDaoImpl extends GenericDaoImpl<Term> implements TermDao {
   /**
    * {@inheritDoc}

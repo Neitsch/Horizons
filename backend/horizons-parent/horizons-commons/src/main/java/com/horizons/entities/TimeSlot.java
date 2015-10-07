@@ -16,6 +16,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,6 +41,7 @@ import com.horizons.jsonview.AllCoursesView;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"weekDay", "start", "end"})})
 public class TimeSlot implements Serializable {
   @Column(nullable = false)
   @Type(type = "org.joda.time.contrib.hibernate.PersistentLocalTimeAsTime")
