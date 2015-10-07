@@ -21,6 +21,21 @@ import com.horizons.generics.GenericDaoImpl;
  */
 @Repository
 public class CourseDaoImpl extends GenericDaoImpl<Course> implements CourseDao {
+
+  /**
+   * {@inheritDoc}
+   *
+   * @author nschuste
+   * @version 1.0.0
+   * @see com.horizons.dao.CourseDao#findByCrn(java.lang.String)
+   * @since Oct 7, 2015
+   */
+  @Override
+  public Course findByCrnAndTerm(final int parseInt, final String term) {
+    return (Course) this.getCriteriaForClass().createAlias("term", "t")
+        .add(Restrictions.eq("crn", parseInt)).add(Restrictions.eq("t.name", term)).uniqueResult();
+  }
+
   /**
    * {@inheritDoc}
    *

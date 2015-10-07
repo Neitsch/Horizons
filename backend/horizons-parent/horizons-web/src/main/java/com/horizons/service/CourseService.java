@@ -22,6 +22,17 @@ import com.horizons.to.CourseRaw;
  */
 public interface CourseService {
 
+
+  /**
+   * @author nschuste
+   * @version 1.0.0
+   * @param trim
+   * @return
+   * @since Oct 7, 2015
+   */
+  @Transactional(readOnly = true)
+  Course byCrnAndTerm(String trim, String term);
+
   /**
    * @author nschuste
    * @version 1.0.0

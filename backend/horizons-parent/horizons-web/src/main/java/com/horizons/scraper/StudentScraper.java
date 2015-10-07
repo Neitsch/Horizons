@@ -5,7 +5,7 @@
 
 package com.horizons.scraper;
 
-import com.horizons.to.StudentRaw;
+import com.horizons.to.Student;
 
 /**
  * @author nschuste
@@ -13,5 +13,5 @@ import com.horizons.to.StudentRaw;
  * @since Oct 7, 2015
  */
 public interface StudentScraper {
-  public StudentRaw scrape(String name);
+  public Student scrape(String name);
 }

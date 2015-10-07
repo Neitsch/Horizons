@@ -43,6 +43,9 @@ public class Course implements Serializable {
   @Column
   @JsonView(AllCoursesView.class)
   private int courseNumber;
+  @Column()
+  @JsonView(AllCoursesView.class)
+  private int crn;
   @ManyToMany()
   @JsonView(AllCoursesView.class)
   @LazyCollection(LazyCollectionOption.FALSE)

@@ -16,6 +16,15 @@ import com.horizons.generics.GenericDao;
  * @since Sep 22, 2015
  */
 public interface CourseDao extends GenericDao<Course> {
+  /**
+   * @author nschuste
+   * @version 1.0.0
+   * @param parseInt
+   * @param term
+   * @return
+   * @since Oct 7, 2015
+   */
+  Course findByCrnAndTerm(int parseInt, String term);
 
   /**
    * @author nschuste
@@ -27,5 +36,4 @@ public interface CourseDao extends GenericDao<Course> {
    * @since Oct 1, 2015
    */
   Course findByDepNumTerm(Department next, int courseNumber, Term term);
-
 }
