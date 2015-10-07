@@ -39,7 +39,7 @@ public class Term implements Serializable {
   private LocalDate end;
   @OneToMany(mappedBy = "term")
   private Collection<Course> instances = new HashSet<>();
-  @Column
+  @Column(unique = true)
   @JsonView(AllCoursesView.class)
   private String name;
   @Column
