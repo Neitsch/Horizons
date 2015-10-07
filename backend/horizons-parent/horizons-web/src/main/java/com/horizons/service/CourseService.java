@@ -38,5 +38,6 @@ public interface CourseService {
    * @param rawCourse
    * @since Sep 28, 2015
    */
+  @Transactional(readOnly = false)
   void persistRawCourse(CourseRaw rawCourse);
 }

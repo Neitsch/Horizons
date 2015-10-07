@@ -5,6 +5,7 @@
 
 package com.horizons.entities;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.UUID;
@@ -35,7 +36,7 @@ import com.horizons.jsonview.AllCoursesView;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Instructor {
+public class Instructor implements Serializable {
   @ManyToMany(mappedBy = "instructors", cascade = {javax.persistence.CascadeType.ALL})
   private Collection<Course> instances = new HashSet<>();
   @Column(unique = true)

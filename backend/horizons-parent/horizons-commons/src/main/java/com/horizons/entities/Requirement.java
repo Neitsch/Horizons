@@ -5,6 +5,7 @@
 
 package com.horizons.entities;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.UUID;
@@ -29,7 +30,7 @@ import com.horizons.jsonview.AllCoursesView;
  */
 @Data
 @Entity
-public class Requirement {
+public class Requirement implements Serializable {
   public enum RequirementEnum {
     DIV_ARTS, DIV_DIVERSITY, DIV_GLOBAL, DIV_HUMANITIES, DIV_QUANT, DIV_S, DIV_SCIENCE, DIV_SOCIAL,
     DIV_W, NS_LAB

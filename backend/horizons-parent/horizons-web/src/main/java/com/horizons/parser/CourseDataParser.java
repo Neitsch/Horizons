@@ -28,7 +28,7 @@ public class CourseDataParser {
       Pattern
           .compile("(([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9])-(([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]) ([A-Z]+) ([A-Z]+ [0-9]+)");
   private static final Pattern INSTRUCTOR_PATTERN = Pattern
-      .compile("[A-Z][a-z]+ ([A-Z]\\. )*?[A-Z][a-z]+");
+      .compile("[A-Z][a-z]+(\\-[a-zA-Z][a-z]+)? ([A-Z]\\. )*?[A-Z][a-z]+");
   private static final Pattern REQUIREMENTS_PATTERN = Pattern
       .compile("[a-zA-Z\\- ]+(?= GER \\(01cr\\)[,]?)");
 

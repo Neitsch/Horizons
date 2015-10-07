@@ -5,6 +5,8 @@
 
 package com.horizons.to;
 
+import java.io.Serializable;
+
 import lombok.Data;
 
 
@@ -14,7 +16,7 @@ import lombok.Data;
  * @since Sep 28, 2015
  */
 @Data
-public class CourseRaw {
+public class CourseRaw implements Serializable {
   private String attributes;
   private String classTime;
   private String course;

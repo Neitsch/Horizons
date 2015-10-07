@@ -19,14 +19,14 @@ import javax.xml.bind.JAXBException;
 
 import lombok.extern.slf4j.XSlf4j;
 
-import org.joda.time.DateTime;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.slf4j.profiler.Profiler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.jms.annotation.JmsListener;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +38,6 @@ import com.horizons.service.CourseService;
 import com.horizons.service.DepartmentService;
 import com.horizons.to.CourseRaw;
 import com.horizons.to.SetContainer;
-import com.horizons.web.CourseEndpoint;
 
 /**
  * @author nschuste
@@ -54,6 +53,10 @@ public class ClassScraper {
 
   private static final String COURSE = "Course";
 
+  private static final String COURSE_QUEUE = "course";
+
+  private static final String COURSE_RAW_QUEUE = "courseRaw";
+
   private static final String CRN = "CRN";
 
   private static final Pattern DEPARTMENT_REGEX_PATTERN = Pattern
@@ -66,10 +69,12 @@ public class ClassScraper {
   private static final String REGEX_DESCRIPTION = "Catalog Description : ";
 
   private static final String REGEX_PREREQ = "Prerequisites/Notes: ";
+  private static final String SUBJECT_QUEUE = "subject";
 
   private static final String TERM = "Term";
 
   private static final String TITLE = "Title";
+
   private static final String UNITS = "Units";
 
   @Autowired
@@ -81,44 +86,28 @@ public class ClassScraper {
   @Autowired
   private RequirementDao requirementDao;
 
-  @Scheduled(cron = "0 4 * * *")
+  @Autowired
+  private JmsTemplate template;
+
+  @Scheduled(cron = "0 0 4 * * *")
   @Transactional
   @CacheEvict(value = "allCourses", allEntries = true)
   public void getClasses() {
     log.entry();
     try {
-      final Profiler profiler = new Profiler("Course Data Scraping");
-      profiler.setLogger(log);
-      profiler.start("Check Requirements");
       this.ensureRequirementsExist();
-      profiler.start("Get Subjects");
-      final Set<String> subjects = this.getSubjects();
-      profiler.start("Get Courses");
-      final Set<String> allClasses = new HashSet<>();
-      for (final String subject : subjects) {
-        allClasses.addAll(this.getClasses(subject));
-      }
-      profiler.start("Get Data from Courses");
-      for (final String course : allClasses) {
-        final CourseRaw rawCourse = this.courseFromUrl(BASE_URL + course);
-        if (rawCourse != null) {
-          this.courseService.persistRawCourse(rawCourse);
-        }
-      }
-      profiler.start("Update Cache");
-      this.courseService.getAllCourses();
-      CourseEndpoint.lastUpdated = new DateTime();
-      profiler.stop().log();
+      this.getSubjects();
     } catch (final Exception e) {
       log.catching(e);
     }
   }
 
-  protected CourseRaw courseFromUrl(final String url) throws IOException {
+  @JmsListener(destination = COURSE_QUEUE, concurrency = "10")
+  public void receiveCourses(final String url) throws IOException {
+    log.entry(url);
     final CourseRaw course = new CourseRaw();
     final Document doc = Jsoup.connect(url).get();
     Elements elem = doc.select(".pagebodydiv > .datadisplaytable > tbody:last-child");
-    System.out.println(elem.html().split("<br>").length);
     for (final String row : elem.html().split("<br>")) {
       this.testFieldForRelevance(Jsoup.parse(row).text(), course);
     }
@@ -126,7 +115,7 @@ public class ClassScraper {
         doc.select(".pagebodydiv > .datadisplaytable > tbody > tr > td > .datadisplaytable:first-of-type > tbody > tr");
     final Map<String, String> pairs = this.extractPairs(elem);
     if (pairs.get(CRN).length() <= 2) {
-      return null;
+      return;
     }
     course.setClassTime(pairs.get(CLASS_TIME));
     course.setCourse(pairs.get(COURSE));
@@ -135,12 +124,25 @@ public class ClassScraper {
     course.setTerm(pairs.get(TERM));
     course.setTitle(pairs.get(TITLE));
     course.setUnits(pairs.get(UNITS));
-    System.out.println(course);
-    return course;
+    this.template.convertAndSend(COURSE_RAW_QUEUE, log.exit(course));
+  }
+
+  @JmsListener(destination = SUBJECT_QUEUE, concurrency = "3")
+  public void receiveSubject(final String subject) throws IOException {
+    log.entry(subject);
+    final Document doc = Jsoup.connect(subject).timeout(10000).get();
+    final Elements elem =
+        doc.select(".pagebodydiv > .datadisplaytable > tbody > tr > td.dddefault > a[href]");
+    final Iterator<Element> iter = elem.iterator();
+    while (iter.hasNext()) {
+      final Element element = iter.next();
+      this.template.convertAndSend(COURSE_QUEUE, log.exit(BASE_URL + element.attr("href")));
+    }
   }
 
   private void ensureRequirementsExist() {
     try {
+      @SuppressWarnings("unchecked")
       final SetContainer<Requirement> req =
           (SetContainer<Requirement>) JAXBContext.newInstance(SetContainer.class)
               .createUnmarshaller()
@@ -179,29 +181,7 @@ public class ClassScraper {
     return result;
   }
 
-  /**
-   * @author nschuste
-   * @version 1.0.0
-   * @param string
-   * @return
-   * @throws IOException
-   * @since Sep 27, 2015
-   */
-  private Set<String> getClasses(final String string) throws IOException {
-    log.entry(string);
-    final Set<String> classes = new HashSet<>();
-    final Document doc = Jsoup.connect(string).timeout(10000).get();
-    final Elements elem =
-        doc.select(".pagebodydiv > .datadisplaytable > tbody > tr > td.dddefault > a[href]");
-    final Iterator<Element> iter = elem.iterator();
-    while (iter.hasNext()) {
-      final Element element = iter.next();
-      classes.add(element.attr("href"));
-    }
-    return log.exit(classes);
-  }
-
-  private Set<String> getSubjects() throws IOException {
+  private void getSubjects() throws IOException {
     log.entry();
     final Set<String> subjects = new HashSet<>();
     final Document doc =
@@ -212,8 +192,8 @@ public class ClassScraper {
       final Element element = iter.next();
       this.ensureDepartmentExists(element.text());
       subjects.add(element.select("a[href]").attr("href"));
+      this.template.convertAndSend(SUBJECT_QUEUE, log.exit(element.select("a[href]").attr("href")));
     }
-    return log.exit(subjects);
   }
 
   private void testFieldForRelevance(final String raw, final CourseRaw course) {

@@ -73,6 +73,12 @@
                 <artifactId>perf4j</artifactId>
                 <version>${perf4j.version}</version>
             </dependency>
+            <!-- ACTIVEMQ -->
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-kahadb-store</artifactId>
+                <version>${activemq.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>

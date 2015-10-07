@@ -5,6 +5,7 @@
 
 package com.horizons.entities;
 
+import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.util.Collection;
 import java.util.HashSet;
@@ -38,7 +39,7 @@ import com.horizons.jsonview.AllCoursesView;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TimeSlot {
+public class TimeSlot implements Serializable {
   @Column(nullable = false)
   @Type(type = "org.joda.time.contrib.hibernate.PersistentLocalTimeAsTime")
   @JsonView(AllCoursesView.class)

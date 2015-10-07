@@ -5,6 +5,7 @@
 
 package com.horizons.entities;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.UUID;
@@ -31,7 +32,7 @@ import com.horizons.jsonview.AllCoursesView;
  */
 @Entity
 @Data
-public class Term {
+public class Term implements Serializable {
   @Column
   @Type(type = "org.joda.time.contrib.hibernate.PersistentLocalDate")
   @JsonView(AllCoursesView.class)

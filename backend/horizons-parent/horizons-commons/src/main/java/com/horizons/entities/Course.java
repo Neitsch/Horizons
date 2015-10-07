@@ -5,6 +5,7 @@
 
 package com.horizons.entities;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.UUID;
@@ -38,7 +39,7 @@ import com.horizons.jsonview.AllCoursesView;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Course {
+public class Course implements Serializable {
   @Column
   @JsonView(AllCoursesView.class)
   private int courseNumber;

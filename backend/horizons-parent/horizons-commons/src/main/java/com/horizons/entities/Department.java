@@ -5,6 +5,7 @@
 
 package com.horizons.entities;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.UUID;
@@ -35,7 +36,7 @@ import com.horizons.jsonview.AllCoursesView;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Department {
+public class Department implements Serializable {
   @ManyToMany(mappedBy = "department")
   private Collection<Course> courses = new HashSet<>();
   @Column(unique = true)

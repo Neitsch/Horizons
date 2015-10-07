@@ -5,6 +5,7 @@
 
 package com.horizons.entities;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -28,7 +29,7 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 @Data
-public class User {
+public class User implements Serializable {
   @ManyToMany
   private Set<Course> courses;
   @Column

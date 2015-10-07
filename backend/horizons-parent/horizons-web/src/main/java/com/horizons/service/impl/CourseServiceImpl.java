@@ -16,6 +16,7 @@ import lombok.extern.slf4j.XSlf4j;
 import org.hibernate.SessionFactory;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
 
 import com.horizons.dao.CourseDao;
@@ -81,6 +82,7 @@ public class CourseServiceImpl implements CourseService {
    * @see com.horizons.service.CourseInstanceService#persistRawCourse(com.horizons.to.CourseRaw)
    * @since Sep 28, 2015
    */
+  @JmsListener(destination = "courseRaw", concurrency = "12")
   @Override
   public void persistRawCourse(final CourseRaw rawCourse) {
     log.entry(rawCourse);

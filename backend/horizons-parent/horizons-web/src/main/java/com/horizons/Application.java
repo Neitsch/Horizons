@@ -7,8 +7,11 @@ package com.horizons;
 
 import java.net.MalformedURLException;
 
+import javax.jms.ConnectionFactory;
+
 import lombok.extern.slf4j.XSlf4j;
 
+import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -23,6 +26,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.jms.annotation.EnableJms;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -40,6 +45,8 @@ import com.horizons.scraper.ClassScraper;
     DataSourceTransactionManagerAutoConfiguration.class})
 @ComponentScan
 @EnableTransactionManagement
+@EnableJms
+@EnableScheduling
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @ImportResource("classpath:spring.xml")
 public class Application {
@@ -65,6 +72,11 @@ public class Application {
     final EhCacheCacheManager ehCacheCacheManager = new EhCacheCacheManager();
     ehCacheCacheManager.setCacheManager(ehcache.getObject());
     return ehCacheCacheManager;
+  }
+
+  @Bean
+  public ConnectionFactory connectionFactory() {
+    return new ActiveMQConnectionFactory("vm://localhost");
   }
 
   @Bean
