@@ -62,7 +62,9 @@ public class Application {
     log.entry((Object[]) args);
     System.setProperty("https.protocols", "SSLv3,SSLv2Hello,TLSv1");
     final ApplicationContext context = SpringApplication.run(Application.class, args);
+    log.info("Spring Boot startup completed");
     context.getBean(ClassScraper.class).getClasses();
+    log.info("Scraping completed");
     log.exit();
   }
 
