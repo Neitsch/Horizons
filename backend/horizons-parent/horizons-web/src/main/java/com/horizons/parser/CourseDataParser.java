@@ -27,8 +27,8 @@ public class CourseDataParser {
   private static final Pattern CLASS_TIME_PATTERN =
       Pattern
           .compile("(([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9])-(([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]) ([A-Z]+) ([A-Z]+ [0-9]+)");
-  private static final Pattern INSTRUCTOR_PATTERN = Pattern
-      .compile("[A-Z][a-z]+(\\-[a-zA-Z][a-z]+)? ([A-Z]\\. )*?[A-Z][a-z]+");
+  // private static final Pattern INSTRUCTOR_PATTERN = Pattern
+  // .compile("([A-Z] )?[A-Z][a-z]+(\\-[a-zA-Z][a-z]+)? ([A-Z]\\.([A-Z]\\.)? )*?([A-Z][a-z]+)+");
   private static final Pattern REQUIREMENTS_PATTERN = Pattern
       .compile("[a-zA-Z\\- ]+(?= GER \\(01cr\\)[,]?)");
 
@@ -40,7 +40,13 @@ public class CourseDataParser {
    * @since Oct 1, 2015
    */
   public static Set<String> parseInstructors(final String instructor) {
-    return parseGen(instructor, INSTRUCTOR_PATTERN);
+    log.entry(instructor);
+    final String[] save = instructor.split(",");
+    final Set<String> result = new HashSet<>();
+    for (final String string : save) {
+      result.add(string.trim());
+    }
+    return log.exit(result);
   }
 
   public static Set<String> parseRequirements(final String req) {
