@@ -2,23 +2,21 @@
   "name": "Horizons",
   "version": "0.0.0",
   "author": "Nigel Schuster, Eduardo Elizondo",
-
   "main": "app/build/index.js",
-
   "dependencies": {
-    },
-
+    "express": "^4.13.3"
+  },
   "devDependencies": {
     "gulp": "^3.6.2",
-    "gulp-tsc": "^0.10.1",
+    "gulp-connect": "^2.2.0",
     "gulp-shell": "^0.4.2",
+    "gulp-tsc": "^0.10.1",
     "gulp-tslint": "^2.0.0",
-    "run-sequence":"^1.1.1",
-    "mocha" : "*"
+    "mocha": "*",
+    "run-sequence": "^1.1.1"
   },
-
-  "scripts" : {
-    "main" : "gulp buildrun",
+  "scripts": {
+    "main": "gulp buildrun",
     "test": "gulp build && mocha"
   }
 }

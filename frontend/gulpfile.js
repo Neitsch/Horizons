@@ -1,8 +1,10 @@
-var gulp   = require('gulp');
-var tsc    = require('gulp-tsc');
-var shell  = require('gulp-shell');
-var runseq = require('run-sequence');
-var tslint = require('gulp-tslint');
+var gulp    = require('gulp');
+var tsc     = require('gulp-tsc');
+var shell   = require('gulp-shell');
+var runseq  = require('run-sequence');
+var tslint  = require('gulp-tslint');
+var gulp    = require('gulp');
+var connect = require('gulp-connect');
 
 var paths = {
   tscripts : { src : ['app/src/**/*.ts'],
@@ -14,7 +16,7 @@ gulp.task('default', ['lint', 'buildrun']);
 // ** Running ** //
 
 gulp.task('run', shell.task([
-  'node app/build/index.js'
+  'node app/build/main.js'
 ]));
 
 gulp.task('buildrun', function (cb) {
