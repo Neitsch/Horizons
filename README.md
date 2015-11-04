@@ -1,2 +1,4 @@
 # Horizons
-hi
+Endpoints:
+/authz/login
+/schedule/all
