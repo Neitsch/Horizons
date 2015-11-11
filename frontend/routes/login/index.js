@@ -10,7 +10,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Horizons' });
+  res.render('login/index', { title: 'Horizons' });
 });
 
 router.post("/logon", function(req, res) {

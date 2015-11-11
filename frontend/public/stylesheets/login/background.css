@@ -1,0 +1,8 @@
+body {
+  background: url("../../images/horizonsHome.jpg") no-repeat fixed !important;
+  -webkit-background-size: cover !important;
+  -moz-background-size: cover !important;
+  -o-background-size: cover !important;
+  background-size: cover !important;
+  background-color: #cccccc !important;
+}

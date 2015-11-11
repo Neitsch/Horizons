@@ -1,14 +1,15 @@
-extends layout
+extends ../global/header
 
-block title
+block head
   title Horizons | Log In
+  link(rel='stylesheet', href='/stylesheets/login/background.css')
+  link(rel='stylesheet', href='/stylesheets/login/center-login.css')
 
 block content
-  link(rel='stylesheet', href='/stylesheets/login.css')
-  div(class="container myBorder")
+  div(class="container")
     div(class="row inner-container")
       div(class="col-md-4 col-sm-4")
-      div(class="col-md-4 col-sm-4 myBorder")
+      div(class="col-md-4 col-sm-4")
         h1= title
         br
         form(name="login", method="post", action="/logon")

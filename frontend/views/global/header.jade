@@ -1,6 +1,9 @@
 doctype html
 html
   head
+    block head
+    title Horizons
+    
     //Metadata
     meta(charset="UTF-8")
     meta(name="description", content="Lawrence University class registration tool")
@@ -10,17 +13,15 @@ html
     
     //Bootstrap
     link(rel='text/javascript', href='/javascript/bootstrap.min.js')
-    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
-    link(rel='stylesheet', href='/stylesheets/bootstrap-theme.min.css')
+    link(rel='stylesheet', href='/stylesheets/global/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/global/bootstrap-theme.min.css')
     
     //Fonts
     link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Nunito:300')
     link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Headland+One')
     
     //Global css
-    link(rel='stylesheet', href='/stylesheets/global-style.css')
-    block title
-      title Horizons
-    
+    link(rel='stylesheet', href='/stylesheets/global/style.css')
+
   body
     block content
