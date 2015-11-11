@@ -1,58 +1,58 @@
-var gulp    = require('gulp');
-var tsc     = require('gulp-tsc');
-var shell   = require('gulp-shell');
-var runseq  = require('run-sequence');
-var tslint  = require('gulp-tslint');
-var gulp    = require('gulp');
-var connect = require('gulp-connect');
+'use strict';
 
-var paths = {
-  tscripts : { src : ['app/src/**/*.ts'],
-        dest : 'app/build' }
-};
+var gulp = require('gulp');
+var browserSync = require('browser-sync');
+var nodemon = require('gulp-nodemon');
 
-gulp.task('default', ['lint', 'buildrun']);
+// we'd need a slight delay to reload browsers
+// connected to browser-sync after restarting nodemon
+var BROWSER_SYNC_RELOAD_DELAY = 500;
 
-// ** Running ** //
 
-gulp.task('run', shell.task([
-  'node app/build/main.js'
-]));
+gulp.task('nodemon', function (cb) {
+  var called = false;
+  return nodemon({
 
-gulp.task('buildrun', function (cb) {
-  runseq('build', 'run', cb);
+    // nodemon our expressjs server
+    script: 'bin/www',
+
+    // watch core server file(s) that require server restart on change
+    watch: ['.']
+  })
+    .on('start', function onStart() {
+      // ensure start only got called once
+      if (!called) { cb(); }
+      called = true;
+    })
+    .on('restart', function onRestart() {
+      // reload connected browsers after a slight delay
+      setTimeout(function reload() {
+        browserSync.reload({
+          stream: false   //
+        });
+      }, BROWSER_SYNC_RELOAD_DELAY);
+    });
 });
 
-// ** Watching ** //
+gulp.task('browser-sync', ['nodemon'], function () {
 
-gulp.task('watch', function () {
-  gulp.watch(paths.tscripts.src, ['compile:typescript']);
+  // for more browser-sync config options: http://www.browsersync.io/docs/options/
+  browserSync.init({
+
+    // watch the following files; changes will be injected (css & images) or cause browser to refresh
+    files: ['public/**/*.*','views/*.jade'],
+
+    // informs browser-sync to proxy our expressjs app which would run at the following location
+    proxy: 'http://localhost:3000',
+
+    // informs browser-sync to use the following port for the proxied app
+    // notice that the default port is 3000, which would clash with our expressjs
+    port: 4000,
+
+    // open the proxied app in chrome
+    browser: ['google chrome']
+  });
 });
 
-gulp.task('watchrun', function () {
-  gulp.watch(paths.tscripts.src, runseq('compile:typescript', 'run'));
-});
 
-// ** Compilation ** //
-
-gulp.task('build', ['compile:typescript']);
-gulp.task('compile:typescript', function () {
-  return gulp
-  .src(paths.tscripts.src)
-  .pipe(tsc({
-    module: "commonjs",
-    emitError: false
-  }))
-  .pipe(gulp.dest(paths.tscripts.dest));
-});
-
-// ** Linting ** //
-
-gulp.task('lint', ['lint:default']);
-gulp.task('lint:default', function(){
-      return gulp.src(paths.tscripts.src)
-        .pipe(tslint())
-        .pipe(tslint.report('prose', {
-          emitError: false
-        }));
-});
+gulp.task('default', ['browser-sync']);

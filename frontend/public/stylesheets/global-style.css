@@ -1,0 +1,35 @@
+html, body {
+  height: 100%;
+  background: #987a3b;
+}
+
+body {
+  font-family: 'Nunito', sans-serif !important;
+}
+
+h1 {
+  font-family: 'Headland One', serif !important;
+  font-size: 15vw !important;
+  font-weight: bold !important;
+  text-align: center !important;
+  color: white !important;
+}
+
+.btn {
+  letter-spacing: 1px;
+  font-weight: lighter !important;
+}
+
+
+@media(min-width: 768px) {
+
+h1 {
+  font-size: 6vw !important;
+}
+
+}
+
+.myBorder {
+  border: 1px solid red; 
+}
+
